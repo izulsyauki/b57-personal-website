@@ -1,0 +1,40 @@
+.card {
+  width: 300px;
+  padding: 20px;
+  border-color: black;
+  border-width: 0.5px;
+  border-style: solid;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+  margin: auto;
+  transition: 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.5);
+}
+
+img {
+  width: 100%;
+  border-radius: 6px;
+  height: 300px;
+  object-fit: cover;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+p {
+  font-weight: normal;
+}
+
+table,
+td,
+th {
+  border:1px solid black;
+  padding: 5px;
+  width: 70%;
+  border-collapse: collapse;
+  text-align: center;
+}
