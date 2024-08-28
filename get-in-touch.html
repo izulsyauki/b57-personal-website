@@ -3,52 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Navbar</title>
+    <title>Get In Touch</title>
 
-    <link rel="stylesheet" href="styles/style.css" />
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="assets/styles/style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header class="header">
-      <a href="https://dumbways.id/">
-        <img
-          class="logo"
-          src="https://dumbways.id/assets/images/brandred.png"
-          alt="Logo Dumbways"
-        />
-      </a>
+      <a href="index.html" class="logo">Izulsyauki</a>
 
       <nav class="navbar">
         <a href="#">Home</a>
         <a href="#">Projects</a>
-        <a href="#">Contact Me</a>
+        <a href="get-in-touch.html"><button class="btn">Contact Me</button></a>
       </nav>
     </header>
 
     <div class="wrapper">
-      <form action="">
-        <h1>Form Data Diri</h1>
+      <form onsubmit="sendEmail(event)">
+        <h2>Get In Touch</h2>
         <div class="input-box">
-          <input type="text" placeholder="Username" required>
-          <i class='bx bxs-user'></i>
+          <input type="text" placeholder="Fullname" id="fullname" required />
+          <i class="bx bxs-user"></i>
         </div>
         <div class="input-box">
-          <input type="text" placeholder="Email" required>
-          <i class='bx bxs-envelope'></i>
+          <input type="text" placeholder="Email" id="email" required />
+          <i class="bx bxs-envelope"></i>
         </div>
         <div class="input-box">
-          <input type="number" placeholder="Phone Number" min="0" minlength="11" maxlength="14" required>
-          <i class='bx bxs-phone'></i>
+          <input
+            type="number"
+            id="phone-number"
+            placeholder="Phone Number"
+            min="0"
+            minlength="11"
+            maxlength="14"
+            required
+          />
+          <i class="bx bxs-phone"></i>
         </div>
         <div class="input-box">
-          <select required>
-            <option class="placeholder" disabled selected hidden>Choose Role...</option>
+          <select id="role" required>
+            <option value="" disabled selected hidden>Choose Role...</option>
             <option>Frontend Developer</option>
             <option>Backend Developer</option>
             <option>Fullstack Developer</option>
+            <option>Others</option>
           </select>
-          <i class='bx bxs-chevron-down'></i>
+          <i class="bx bxs-chevron-down"></i>
         </div>
+        <textarea placeholder="Input youre message here.." id="message" required></textarea>
 
         <button type="submit" class="btn">Submit</button>
       </form>
@@ -72,5 +79,6 @@
         <input type="submit" value="Submit" />
       </form>
     </section> -->
+    <script src="assets/js/script.js"></script>
   </body>
 </html>
