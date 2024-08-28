@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar</title>
+
+    <link rel="stylesheet" href="styles/style.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  </head>
+  <body>
+    <header class="header">
+      <a href="https://dumbways.id/">
+        <img
+          class="logo"
+          src="https://dumbways.id/assets/images/brandred.png"
+          alt="Logo Dumbways"
+        />
+      </a>
+
+      <nav class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Projects</a>
+        <a href="#">Contact Me</a>
+      </nav>
+    </header>
+
+    <div class="wrapper">
+      <form action="">
+        <h1>Form Data Diri</h1>
+        <div class="input-box">
+          <input type="text" placeholder="Username" required>
+          <i class='bx bxs-user'></i>
+        </div>
+        <div class="input-box">
+          <input type="text" placeholder="Email" required>
+          <i class='bx bxs-envelope'></i>
+        </div>
+        <div class="input-box">
+          <input type="number" placeholder="Phone Number" min="0" minlength="11" maxlength="14" required>
+          <i class='bx bxs-phone'></i>
+        </div>
+        <div class="input-box">
+          <select required>
+            <option class="placeholder" disabled selected hidden>Choose Role...</option>
+            <option>Frontend Developer</option>
+            <option>Backend Developer</option>
+            <option>Fullstack Developer</option>
+          </select>
+          <i class='bx bxs-chevron-down'></i>
+        </div>
+
+        <button type="submit" class="btn">Submit</button>
+      </form>
+    </div>
+
+    <!-- <section class="section">
+      <form style="display: flex; flex-direction: column; gap: 10px">
+        <input placeholder="Enter your name" />
+        <input placeholder="Enter your email" />
+        <input placeholder="Enter your phone number" />
+        <select>
+          <option>Frontend Developer</option>
+          <option>Backend Developer</option>
+          <option>Fullstack Developer</option>
+        </select>
+        <textarea
+          cols="30"
+          rows="5"
+          placeholder="Enter your message"
+        ></textarea>
+        <input type="submit" value="Submit" />
+      </form>
+    </section> -->
+  </body>
+</html>
