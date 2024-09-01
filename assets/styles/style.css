@@ -516,77 +516,93 @@ textarea:is(:focus) {
 
 /* End form */
 
-.project-post {
+
+.project-wrapper {
   display: flex;
   flex-direction: column;
   margin: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: white;
-  padding: 100px 100px;
+  padding: 50px 100px;
   gap: 30px;
   justify-content: center;
+  align-items: center;
 }
 
-.project-post h1 {
+.project-wrapper h1 {
   font-size: 28px;
   text-align: center;
 }
 
-.project-post .project-card {
+.project-wrapper .project-post {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.project-wrapper .project-post .project-card {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  max-width: 360px;
-  max-height: 620px;
+  max-width: 260px;
+  max-height: 480px;
   /* border-width: 0.5px; */
   border-radius: 8px;
-  box-shadow: 0 15px 50px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 15px 50px 5px rgba(0, 0, 0, 0.2);
   justify-content: center;
   gap: 10px;
 }
 
-.project-post .project-card img {
+.project-wrapper .project-post .project-card h1 {
+  font-size: 20px;
+}
+
+.project-wrapper .project-post .project-card img {
   object-fit: cover;
-  min-height: 300px;
-  max-height: 300px;
+  min-height: 200px;
+  max-height: 200px;
   border-radius: 8px 8px 0 0;
 }
 
-
-
-.project-post .project-card .project-content {
-  padding: 20px;
-  height: 200px;
+.project-wrapper .project-post .project-card .project-content {
+  padding: 10px 20px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 20px;
+  gap: 10px;
 }
 
-.project-post .project-card .btn-prj {
-  padding: 20px;
+.project-wrapper .project-post .project-card .btn-prj {
+  padding: 5px 20px 20px 20px;
   height: 100%;
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 15px;
 }
 
 .project-post .project-card .project-content p {
   overflow: hidden !important;
   white-space: unset;
   text-overflow: ellipsis;
+  font-size: 14px;
 }
 
-.project-post .project-card .btn-prj button {
+.project-wrapper .project-post .project-card .btn-prj button {
   width: 50%;
-  height: 40px;
+  height: 30px;
   background-color: black;
   border: 2px solid rgba(255, 255, 255, 0.2);
   outline: none;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #ffffff;
   cursor: pointer;
