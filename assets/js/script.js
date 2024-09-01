@@ -45,17 +45,4 @@ document.getElementById("upload-img").addEventListener("change", function () {
   label.textContent = fileName; // Mengubah teks label menjadi nama file
 });
 
-// add 3 dots
-
-// let char = document.getElementById("description");
-
-// function add3Dots(string, limit) {
-//   let dots = "...";
-//   if (string.length > limit) {
-//     string = string.substring(0, limit) + dots;
-//   }
-  
-//   return string;
-// }
-
-// add3Dots(string(char), 115);
+// 

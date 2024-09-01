@@ -551,7 +551,7 @@ textarea:is(:focus) {
   flex-direction: column;
   box-sizing: border-box;
   max-width: 260px;
-  max-height: 480px;
+  max-height: 520px;
   /* border-width: 0.5px; */
   border-radius: 8px;
   box-shadow: 0px 15px 50px 5px rgba(0, 0, 0, 0.2);
@@ -560,7 +560,7 @@ textarea:is(:focus) {
 }
 
 .project-wrapper .project-post .project-card h1 {
-  font-size: 20px;
+  font-size: 24px;
 }
 
 .project-wrapper .project-post .project-card img {
@@ -588,18 +588,46 @@ textarea:is(:focus) {
   gap: 15px;
 }
 
-.project-post .project-card .project-content p {
+.project-post .project-card .project-content .title{
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+}
+
+.project-post .project-card .project-content .title p {
+  color: #757575;
+  font-size: small;
+}
+
+.project-post .project-card .project-content p{
+  font-size: small;
   overflow: hidden !important;
   white-space: unset;
   text-overflow: ellipsis;
-  font-size: 14px;
+}
+
+.project-post .project-card .stack-label {
+  padding: 0px 20px;
+  display: flex;
+  gap: 5px;
+}
+
+.project-post .project-card .stack-label label {
+  font-size: 8px;
+  padding: 2px 4px;
+  background-color: rgb(233, 233, 233);
+  color: #4b4b4b;
+  border: 1px solid #4b4b4b;
+  border-radius: 6px;
+  font-weight: 400;
 }
 
 .project-wrapper .project-post .project-card .btn-prj button {
   width: 50%;
   height: 30px;
   background-color: black;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(0, 0, 0, 1);
   outline: none;
   border-radius: 6px;
   font-size: 14px;
@@ -608,3 +636,20 @@ textarea:is(:focus) {
   cursor: pointer;
 }
 
+.project-wrapper .project-post .project-card .btn-prj button:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  transition: 0.3s;
+}
+
+.project-wrapper .project-post .project-card .btn-prj .edit {
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgba(0, 0, 0, 1);
+  color: #000000;
+}
+
+.project-wrapper .project-post .project-card .btn-prj .edit:hover {
+  color: white;
+  background-color: black;
+  transition: 0.3s;
+}
