@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add My Project</title>
+
+    <link rel="stylesheet" href="assets/styles/style.css" />
+
+    <!-- Boxicons -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <!-- Boxicons -->
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Font Awesome -->
+  </head>
+  <body>
+    <header class="header">
+      <a href="index.html" class="logo">Izulsyauki</a>
+
+      <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="#"><strong>Projects</strong></a>
+        <a href="get-in-touch.html"><button class="btn">Contact Me</button></a>
+      </nav>
+    </header>
+
+    <section class="wrapper">
+      <form onsubmit="">
+        <h1>Add Project</h1>
+        <div class="input-box">
+          <input type="text" placeholder="Title" id="title" required />
+        </div>
+
+        <div class="input-date">
+          <input
+            type="text"
+            onfocus="(this.type='date')"
+            onblur="(this.type='text')"
+            placeholder="Start Date"
+            id="start-date"
+            required
+          />
+
+          <input
+            type="text"
+            onfocus="(this.type='date')"
+            onblur="(this.type='text')"
+            placeholder="End Date"
+            id="end-date"
+            required
+          />
+        </div>
+
+        <span id="tech">Technologies</span>
+        <div class="stack">
+          <div class="input-stack">
+            <input type="checkbox" id="stack1" name="stack1" />
+            <label for="stack1">Node.Js</label>
+          </div>
+          <div class="input-stack">
+            <input type="checkbox" id="stack2" name="stack2" />
+            <label for="stack2">React.Js</label>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="input-stack">
+            <input type="checkbox" id="stack3" name="stack3" />
+            <label for="stack3">Next.Js</label>
+          </div>
+          <div class="input-stack">
+            <input type="checkbox" id="stack4" name="stack4" />
+            <label for="stack4" type="checkbox">Express.Js</label>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="input-stack">
+            <input type="checkbox" id="stack5" name="stack5" />
+            <label for="stack5">Typescript</label>
+          </div>
+          <div class="input-stack">
+            <input type="checkbox" id="stack6" name="stack6" />
+            <label for="stack6" type="checkbox">Others</label>
+          </div>
+        </div>
+
+        <div class="desc">
+          <textarea
+            placeholder="Description"
+            id="description"
+            required
+          ></textarea>
+        </div>
+
+        <div class="input-box">
+          <div class="input-box-img">
+            <label for="upload-img" id="upload-label">
+              <p>Choose Image</p>
+              <i class="bx bx-upload"></i>
+            </label>
+            <input type="file" id="upload-img" hidden required />
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Submit</button>
+      </form>
+    </section>
+
+    <section class="project-post">
+      <h1>My Projects</h1>
+      <div class="project-card">
+        <img
+          src="https://images.pexels.com/photos/48606/pexels-photo-48606.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt=""
+        />
+
+        <div class="project-content">
+          <h1>Judul</h1>
+          <p id="description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
+            minima eligendi, beatae eos reiciendis totam rerum tempore
+            repudiandae mollitia reprehenderit ipsam ullam laudantium
+            repellendus, voluptates dolore perspiciatis suscipit numquam qui?
+          </p>
+        </div>
+
+        <div class="btn-prj">
+          <button>Edit</button>
+          <button>Delete</button>
+        </div>
+      </div>
+    </section>
+
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
