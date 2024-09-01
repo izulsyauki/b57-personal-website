@@ -574,8 +574,6 @@ textarea:is(:focus) {
 }
 
 .project-post .project-card .project-content p {
-  display: inline-block;
-  white-space: nowrap;
   overflow: hidden !important;
   white-space: unset;
   text-overflow: ellipsis;
