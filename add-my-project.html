@@ -33,12 +33,14 @@
         <a href="get-in-touch.html"><button class="btn">Contact Me</button></a>
       </nav>
     </header>
+    
+    <!-- Input Form -->
 
     <section class="wrapper">
-      <form onsubmit="">
+      <form onsubmit="addProject(event)">
         <h1>Add Project</h1>
         <div class="input-box">
-          <input type="text" placeholder="Title" id="title" required />
+          <input type="text" placeholder="Title" id="input-title" required />
         </div>
 
         <div class="input-date">
@@ -47,7 +49,7 @@
             onfocus="(this.type='date')"
             onblur="(this.type='text')"
             placeholder="Start Date"
-            id="start-date"
+            id="input-start-date"
             required
           />
 
@@ -56,7 +58,7 @@
             onfocus="(this.type='date')"
             onblur="(this.type='text')"
             placeholder="End Date"
-            id="end-date"
+            id="input-end-date"
             required
           />
         </div>
@@ -96,12 +98,12 @@
         <div class="desc">
           <textarea
             placeholder="Description"
-            id="description"
+            id="input-description"
             required
           ></textarea>
         </div>
 
-        <div class="input-box">
+        <div class="input-img">
           <div class="input-box-img">
             <label for="upload-img" id="upload-label">
               <p>Choose Image</p>
@@ -119,38 +121,6 @@
       <h1>My Pojects</h1>
       <div class="project-post">
         
-        <div class="project-card">
-          <img
-            src="assets/images/pexels-photo-48606.webp"
-            alt=""
-          />
-  
-          <div class="project-content">
-            <div class="title">
-            <h1>Judul</h1>
-            <p>Duration: 1 month</p>
-            </div>
-
-            <p id="description">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-              minima eligendi, beatae eos reiciendis totam rerum tempore
-              repudiandae mollitia reprehenderit ipsam ullam laudantium
-              repellendus, voluptates dolore perspiciatis suscipit numquam qui?
-            </p>
-          </div>
-
-          <div class="stack-label">
-            <label>react.js</label>
-            <label>express.js</label>
-          </div>
-  
-          <div class="btn-prj">
-            <button class="edit">Edit</button>
-            <button>Delete</button>
-          </div>
-        </div>
-
-      </div>
     </section>
 
     <script src="assets/js/script.js"></script>
