@@ -27,13 +27,17 @@
     <header class="header">
       <a href="index.html" class="logo">Izulsyauki</a>
 
-      <nav class="navbar">
+      <nav class="navbar" id="navbar">
         <a href="index.html">Home</a>
         <a href="#"><strong>Projects</strong></a>
         <a href="get-in-touch.html"><button class="btn">Contact Me</button></a>
       </nav>
+
+      <a href="javascript:void(0);" id="hamburger-menu" onclick="showNav()"
+        ><i class="bx bx-menu"></i
+      ></a>
     </header>
-    
+
     <!-- Input Form -->
 
     <section class="wrapper">
@@ -121,8 +125,7 @@
 
     <section class="project-wrapper">
       <h1>My Pojects</h1>
-      <div class="project-post">
-        
+      <div class="project-post"></div>
     </section>
 
     <script src="assets/js/script.js"></script>

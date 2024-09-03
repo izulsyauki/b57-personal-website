@@ -47,8 +47,6 @@ document.getElementById("upload-img").addEventListener("change", function () {
 
 // Adding project
 
-
-
 function addProject(event) {
   event.preventDefault();
 
@@ -114,8 +112,8 @@ function addProject(event) {
 
   // // Menghapus card project post
   const deleteButtons = addProjectPost.querySelectorAll(".btn-prj .delete");
-  deleteButtons.forEach(button => {
-    button.addEventListener('click', function() {
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", function () {
       this.parentElement.parentElement.remove();
     });
   });
@@ -131,4 +129,17 @@ function calcDuration(startDate, endDate) {
   const months = Math.floor(calcDays / 30);
   const days = calcDays % 30;
   return `${months} month(s) ${days} days{s}`;
+}
+
+// Fungsi hamburger menu navbar
+
+function showNav() {
+  let navbar = document.getElementById("navbar");
+  if (navbar.style.display === "block") {
+    navbar.style.display = "none";
+  } else {
+    navbar.style.display = "block";
+  }
+
+  console.log("Navbar display toggled to:", navbar.style.display);
 }
