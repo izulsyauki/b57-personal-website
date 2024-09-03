@@ -689,6 +689,10 @@ textarea:is(:focus) {
     font-size: 20px;
   }
 
+  p {
+    font-size: 14px;
+  }
+
   .header {
     overflow: hidden;
     position: relative;
@@ -787,6 +791,14 @@ textarea:is(:focus) {
 
   .wrapper {
     margin-top: 50px;
+    width: 90%;
+    padding: 40px 20px;
+  }
+
+  .project-wrapper {
+    margin-top: 50px;
+    width: 100%;
+    padding: 40px 60px;
   }
   
 }
