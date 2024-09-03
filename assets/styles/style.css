@@ -689,7 +689,7 @@ textarea:is(:focus) {
     font-size: 20px;
   }
 
-  .header{
+  .header {
     overflow: hidden;
     position: relative;
     margin-top: -100px;
@@ -697,6 +697,7 @@ textarea:is(:focus) {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    z-index: 1000;
   }
 
   .header #navbar {
@@ -727,7 +728,7 @@ textarea:is(:focus) {
     border-radius: 8px;
     box-shadow: 0 15px 50px 0px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 50px;
     gap: 20px;
     align-items: center;
   }
@@ -784,4 +785,8 @@ textarea:is(:focus) {
     align-items: center;
   }
 
+  .wrapper {
+    margin-top: 50px;
+  }
+  
 }
