@@ -671,8 +671,29 @@ textarea:is(:focus) {
   transition: 0.3s;
 }
 
+/* Tablet Size */
+@media only screen and (max-width: 1024px) {
 
-/* Mobile size */
+  .home {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .wrapper {
+    width: 90%;
+  }
+
+  .project-wrapper {
+    width: 100%;
+    padding: 30px;
+  }
+
+}
+
+
+/* Mobile Size */
 
 @media only screen and (max-width: 640px)  {
 
