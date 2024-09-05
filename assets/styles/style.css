@@ -679,14 +679,68 @@ textarea:is(:focus) {
   margin-top: -75px;
   margin-bottom: -50px;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  height: fit-content;
   background-color: white;
   padding: 80px 100px 50px 100px;
-  gap: 40px;
+  gap: 20px;
 }
 
 .testimoni-wrapper h1 {
   text-align: center;
+}
+
+.testimoni-wrapper .container-rating {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* justify-content: center; */
+  /* align-items: center; */
+  text-align: center;
+  height: fit-content;
+  padding: 0px 0px 10px 0;
+  gap: 5px;
+}
+
+.testimoni-wrapper .container-rating h2 {
+  font-size: 18px;
+  color: #757575;
+  font-weight: 600;
+}
+
+.testimoni-wrapper .container-rating .rating {
+  width: 100%;
+  height: 100%;
+}
+
+.testimoni-wrapper .container-rating .rating .button-rating {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 10px 0;
+  width: 100%;
+  gap: 20px;
+}
+
+.testimoni-wrapper .container-rating .rating .button-rating .btn {
+  width: 55px;
+  height: fit-content;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 2px;
+  color: #4b4b4b;
+  border: 1.5px solid #a5a5a5;
+  border-radius: 5px;
+  background-color: #e6e6e6;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.testimoni-wrapper .container-rating .rating .button-rating .btn i{
+  color: #ee3f3f;
+  margin-top: -2px;
 }
 
 .testimoni-wrapper .testimoni-post {
@@ -756,6 +810,7 @@ textarea:is(:focus) {
   color: #ee3f3f;
   font-size: 22px;
   max-height: max-content;
+  margin-top: 1px;
 }
 
 /* Tablet Size */
