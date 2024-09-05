@@ -89,7 +89,7 @@ const testimonis = [
     client: "Emily",
     description:
       "Is very impressive the web that i want really amazing and interactive",
-    rating: 5,
+    rating: 5.0,
   },
   {
     image:
