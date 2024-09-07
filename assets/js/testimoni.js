@@ -75,32 +75,56 @@
 
 // Testimoni HOF
 
-const testimonis = [
-  {
-    image:
-      "https://images.pexels.com/photos/3184611/pexels-photo-3184611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    client: "Tommy",
-    description: "I love work with Izul, he so professional and fun",
-    rating: 4.7,
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/914931/pexels-photo-914931.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    client: "Emily",
-    description:
-      "Is very impressive the web that i want really amazing and interactive",
-    rating: 5.0,
-  },
-  {
-    image:
-      "https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    client: "Evans",
-    description: "Incredible the result it was more than my expectations",
-    rating: 4.5,
-  }
-];
+// const testimonis = [
+//   {
+//     image:
+//       "https://images.pexels.com/photos/3184611/pexels-photo-3184611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+//     client: "Tommy",
+//     description: "I love work with Izul, he so professional and fun",
+//     rating: 4.7,
+//   },
+//   {
+//     image:
+//       "https://images.pexels.com/photos/914931/pexels-photo-914931.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+//     client: "Emily",
+//     description:
+//       "Is very impressive the web that i want really amazing and interactive",
+//     rating: 5.0,
+//   },
+//   {
+//     image:
+//       "https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+//     client: "Evans",
+//     description: "Incredible the result it was more than my expectations",
+//     rating: 4.5,
+//   },
+// ];
 
-function getAllTesti() {
+// Testimoni AJAX
+
+function getTestimoniData(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("GET", url, true);
+
+    xhr.onerror = () => {
+      reject("Network Error");
+    };
+
+    xhr.onload = () => {
+      resolve(JSON.parse(xhr.response));
+    };
+
+    xhr.send();
+  });
+}
+
+async function getAllTesti() {
+  const testimonis = await getTestimoniData(
+    "https://api.npoint.io/3a1f7544e431b35bd2ec"
+  );
+
   const testimoniHTML = testimonis.map((testimoni) => {
     return `<div class="testimoni-card">
             <img
@@ -130,7 +154,11 @@ function getAllTesti() {
 
 getAllTesti();
 
-function getTestiByRating(rating){
+async function getTestiByRating(rating) {
+  const testimonis = await getTestimoniData(
+    "https://api.npoint.io/3a1f7544e431b35bd2ec"
+  );
+
   const filteredTestimonis = testimonis.filter((testimoni) => {
     if (Math.floor(testimoni.rating) == rating) {
       return true;
@@ -164,7 +192,6 @@ function getTestiByRating(rating){
   document.getElementById("testimoni-post").innerHTML = testimoniHTML.join("");
 }
 
-
 const buttonRatings = [
   {
     key: "All",
@@ -189,7 +216,7 @@ const buttonRatings = [
   {
     key: "5",
     rating: 5,
-  }
+  },
 ];
 
 function showButtonRatings() {
@@ -201,7 +228,10 @@ function showButtonRatings() {
     }
   });
 
-  document.getElementById("button-rating").innerHTML = buttonRatingsHTML.join("");
+  document.getElementById("button-rating").innerHTML =
+    buttonRatingsHTML.join("");
 }
 
 showButtonRatings();
+
+// ==========================
