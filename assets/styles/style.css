@@ -963,5 +963,10 @@ textarea:is(:focus) {
     width: 100%;
     padding: 40px 60px;
   }
+
+  .project-wrapper .project-post {
+    flex-direction: column;
+    align-items: center;
+  }
   
 }
