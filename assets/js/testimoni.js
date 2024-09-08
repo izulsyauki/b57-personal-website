@@ -126,27 +126,31 @@ async function getAllTesti() {
   );
 
   const testimoniHTML = testimonis.map((testimoni) => {
-    return `<div class="testimoni-card">
-            <img
-              src="${testimoni.image}"
-              alt="person"
-            />
-  
-            <div class="testimoni-content">
-              <div class="client">
-                <h1>${testimoni.client}</h1>
-              </div>
+    return `<div class="card shadow" style="width: 18rem">
+          <img
+            src="${testimoni.image}"
+            class="card-img-top"
+            alt="person"
+          />
+
+          <div class="card-body">
+            <h3 class="card-title">
+            ${testimoni.client}
               <hr />
-              <p id="description">
-              ${testimoni.description}
+            </h3>
+
+            <p class="card-desc align-items-start" id="description">
+            ${testimoni.description}
+            </p>
+
+            <div class="d-flex justify-content-end h-auto">
+              <p class="card-text">
+              ${testimoni.rating}
+                <i class="bi bi-heart-fill text-danger"></i>
               </p>
-  
-              <div class="rating">
-                <p>${testimoni.rating}</p> <i class="bx bxs-heart"></i>
-              </div>
             </div>
-  
-          </div>`;
+          </div>
+        </div>`;
   });
 
   document.getElementById("testimoni-post").innerHTML = testimoniHTML.join("");
@@ -166,27 +170,31 @@ async function getTestiByRating(rating) {
   });
 
   const testimoniHTML = filteredTestimonis.map((testimoni) => {
-    return `<div class="testimoni-card">
-            <img
-              src="${testimoni.image}"
-              alt="person"
-            />
-  
-            <div class="testimoni-content">
-              <div class="client">
-                <h1>${testimoni.client}</h1>
-              </div>
+    return `<div class="card shadow" style="width: 18rem">
+          <img
+            src="${testimoni.image}"
+            class="card-img-top"
+            alt="person"
+          />
+
+          <div class="card-body">
+            <h3 class="card-title">
+            ${testimoni.client}
               <hr />
-              <p id="description">
-              ${testimoni.description}
+            </h3>
+
+            <p class="card-desc align-items-start" id="description">
+            ${testimoni.description}
+            </p>
+
+            <div class="d-flex justify-content-end h-auto">
+              <p class="card-text">
+              ${testimoni.rating}
+                <i class="bi bi-heart-fill text-danger"></i>
               </p>
-  
-              <div class="rating">
-                <p>${testimoni.rating}</p> <i class="bx bxs-heart"></i>
-              </div>
             </div>
-  
-          </div>`;
+          </div>
+        </div>`;
   });
 
   document.getElementById("testimoni-post").innerHTML = testimoniHTML.join("");
@@ -222,13 +230,21 @@ const buttonRatings = [
 function showButtonRatings() {
   const buttonRatingsHTML = buttonRatings.map((buttonRating) => {
     if (buttonRating.key === "All") {
-      return `<button onclick="getAllTesti()" class="btn">${buttonRating.key}<i class="bx bxs-heart"></i></button>`;
+      return `<button onclick="getAllTesti()"
+            class="badge border border-secondary border-1 text-bg-secondary"
+          >
+            ${buttonRating.key} <i class="bi bi-heart-fill text-danger"></i>
+          </button>`;
     } else {
-      return `<button onclick="getTestiByRating(${buttonRating.rating})" class="btn">${buttonRating.key}<i class="bx bxs-heart"></i></button>`;
+      return `<button onclick="getTestiByRating(${buttonRating.rating})"
+            class="badge border border-secondary border-1 text-bg-secondary"
+          >
+            ${buttonRating.key} <i class="bi bi-heart-fill text-danger"></i>
+          </button>`;
     }
   });
 
-  document.getElementById("button-rating").innerHTML =
+  document.getElementById("filterRating").innerHTML =
     buttonRatingsHTML.join("");
 }
 

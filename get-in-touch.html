@@ -5,74 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Get In Touch</title>
 
-    <link rel="stylesheet" href="assets/styles/style.css" />
+    <!-- Bootstrap -->
     <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- /Bootstrap -->
+
+    <link rel="stylesheet" href="assets/styles/style.css" />
   </head>
   <body>
-    <header class="header">
-      <a href="index.html" class="logo">Izulsyauki</a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-white" href="index.html">Izulsyauki</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <nav class="navbar" id="navbar">
-        <a href="index.html">Home</a>
-        <a href="add-my-project.html">Projects</a>
-        <a href="testimoni.html">Testimoni</a>
-        <a href="get-in-touch.html"><button class="btn">Contact Me</button></a>
-      </nav>
-
-      <a href="javascript:void(0);" id="hamburger-menu" onclick="showNav()"
-        ><i class="bx bx-menu"></i
-      ></a>
-    </header>
-
-    <section class="wrapper">
-      <form onsubmit="sendEmail(event)">
-        <h1>Get In Touch</h1>
-        <div class="input-box">
-          <input type="text" placeholder="Fullname" id="fullname" required />
-          <i class="bx bxs-user"></i>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto me-2 mb-lg-0 pe-1">
+            <li class="nav-item">
+              <a
+                class="nav-link text-white"
+                aria-current="page"
+                href="index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="add-my-project.html"
+                >Projects</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="testimoni.html"
+                >Testimoni</a
+              >
+            </li>
+          </ul>
+          <a href="get-in-touch.html"
+            ><button class="btn btn-light" type="submit">Contact Me</button></a
+          >
         </div>
-        <div class="input-box">
-          <input type="email" placeholder="Email" id="email" required />
-          <i class="bx bxs-envelope"></i>
-        </div>
-        <div class="input-box">
+      </div>
+    </nav>
+
+    <!-- Input form -->
+    <section
+      class="d-flex m-5 p-5 bg-white gap-5 w-50 align-self-center rounded-4 justify-content-center"
+    >
+      <form onsubmit="sendEmail(event)" class="h-auto w-100">
+        <h2 class="fw-bold text-center">Get In Touch</h2>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="inputName" class="form-label">Name</label>
           <input
-            type="number"
-            id="phone-number"
-            placeholder="Phone Number"
-            min="0"
-            minlength="11"
-            maxlength="14"
+            type="text"
+            class="form-control h-auto"
+            placeholder="Input youre name"
+            id="inputName"
+            aria-describedby="help"
             required
           />
-          <i class="bx bxs-phone"></i>
-        </div>
-        <div class="input-box">
-          <select id="role" required>
-            <option value="" disabled selected hidden>Choose Role...</option>
-            <option>Frontend Developer</option>
-            <option>Backend Developer</option>
-            <option>Fullstack Developer</option>
-            <option>Others</option>
-          </select>
-          <i class="bx bxs-chevron-down"></i>
         </div>
 
-        <div class="textarea">
-          <textarea
-            placeholder="Input youre message here.."
-            id="message"
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="inputEmail" class="form-label">Email</label>
+          <input
+            type="text"
+            class="form-control h-auto"
+            placeholder="Input youre email"
+            id="inputEmail"
+            aria-describedby="emailHelp"
             required
+          />
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-3">
+          <label for="inputPhone" class="form-label">Phone Number</label>
+          <input
+            type="text"
+            class="form-control h-auto"
+            placeholder="Input youre phone number"
+            id="inputPhone"
+            aria-describedby="phoneHelp"
+            required
+          />
+        </div>
+
+        <!-- Role -->
+        <div class="mb-3">
+          <label for="selectRole">Select youre role</label>
+          <select class="form-select" id="selectRole" aria-label="Default select example" required>
+            <option disabled selected hidden>Select role</option>
+            <option value="Frontend Developer">Frontend Developer</option>
+            <option value="Backend Developer">Backend Developer</option>
+            <option value="Fullstack Developer">Fullstack Developer</option>
+          </select>
+        </div>
+
+        <!-- Message -->
+        <div class="mb-3">
+          <label for="message" class="form-label">Message</label>
+          <textarea
+            class="form-control"
+            placeholder="Input youre message"
+            id="message"
+            rows="3"
           ></textarea>
         </div>
 
-        <button type="submit" class="btn">Send Message</button>
+        <div class="mt-4 mb-3">
+          <button type="submit" class="btn btn-dark w-100">Send Message</button>
+        </div>
       </form>
     </section>
 
+    <!-- Bootstrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <!-- /Bootstrap -->
     <script src="assets/js/script.js"></script>
   </body>
 </html>
