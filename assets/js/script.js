@@ -36,6 +36,7 @@ function sendEmail(event) {
   };
 
   console.log(contact);
+  document.querySelector("form").reset();
 }
 
 // Change name label
