@@ -100,6 +100,46 @@
 //   },
 // ];
 
+// HOf dan callback function
+
+// function main(param1,param2, callBack, callback1){ 
+//   console.log(param1, param2) 
+//   callBack()  // function main mengeksekusi parameter callBack yang mengandung value dari function myCallback 
+//  callback1()
+// }
+
+  // function callback1(){
+  //   console.log("ini callback1")
+  // }
+
+// function myCallback(){ 
+//   console.log ('hello callback')
+// }
+
+// // function myCallback di passing kedalam function main sebagai argument saat proses invocation
+// main(1,2,myCallback,callback1)
+
+// /* ===================
+// Output :
+//  1 2
+//  hello callback
+// ini callback1
+// */
+
+// contoh promise 
+
+// let janji = "bernyanyi"
+
+// let p = new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//         if (janji === "bernyanyi") {
+//             resolve("Penonton senang")
+//         }  else {
+//             reject("Anda tidak bernyanyi")
+//         }
+//     }, 2000)
+// })
+
 // Testimoni AJAX
 
 function getTestimoniData(url) {
@@ -126,27 +166,31 @@ async function getAllTesti() {
   );
 
   const testimoniHTML = testimonis.map((testimoni) => {
-    return `<div class="testimoni-card">
-            <img
-              src="${testimoni.image}"
-              alt="person"
-            />
-  
-            <div class="testimoni-content">
-              <div class="client">
-                <h1>${testimoni.client}</h1>
-              </div>
+    return `<div class="card shadow" style="width: 18rem">
+          <img
+            src="${testimoni.image}"
+            class="card-img-top"
+            alt="person"
+          />
+
+          <div class="card-body">
+            <h3 class="card-title">
+            ${testimoni.client}
               <hr />
-              <p id="description">
-              ${testimoni.description}
+            </h3>
+
+            <p class="card-desc align-items-start" id="description">
+            ${testimoni.description}
+            </p>
+
+            <div class="d-flex justify-content-end h-auto">
+              <p class="card-text">
+              ${testimoni.rating}
+                <i class="bi bi-heart-fill text-danger"></i>
               </p>
-  
-              <div class="rating">
-                <p>${testimoni.rating}</p> <i class="bx bxs-heart"></i>
-              </div>
             </div>
-  
-          </div>`;
+          </div>
+        </div>`;
   });
 
   document.getElementById("testimoni-post").innerHTML = testimoniHTML.join("");
@@ -166,27 +210,31 @@ async function getTestiByRating(rating) {
   });
 
   const testimoniHTML = filteredTestimonis.map((testimoni) => {
-    return `<div class="testimoni-card">
-            <img
-              src="${testimoni.image}"
-              alt="person"
-            />
-  
-            <div class="testimoni-content">
-              <div class="client">
-                <h1>${testimoni.client}</h1>
-              </div>
+    return `<div class="card shadow" style="width: 18rem">
+          <img
+            src="${testimoni.image}"
+            class="card-img-top"
+            alt="person"
+          />
+
+          <div class="card-body">
+            <h3 class="card-title">
+            ${testimoni.client}
               <hr />
-              <p id="description">
-              ${testimoni.description}
+            </h3>
+
+            <p class="card-desc align-items-start" id="description">
+            ${testimoni.description}
+            </p>
+
+            <div class="d-flex justify-content-end h-auto">
+              <p class="card-text">
+              ${testimoni.rating}
+                <i class="bi bi-heart-fill text-danger"></i>
               </p>
-  
-              <div class="rating">
-                <p>${testimoni.rating}</p> <i class="bx bxs-heart"></i>
-              </div>
             </div>
-  
-          </div>`;
+          </div>
+        </div>`;
   });
 
   document.getElementById("testimoni-post").innerHTML = testimoniHTML.join("");
@@ -222,13 +270,21 @@ const buttonRatings = [
 function showButtonRatings() {
   const buttonRatingsHTML = buttonRatings.map((buttonRating) => {
     if (buttonRating.key === "All") {
-      return `<button onclick="getAllTesti()" class="btn">${buttonRating.key}<i class="bx bxs-heart"></i></button>`;
+      return `<button onclick="getAllTesti()"
+            class="badge border border-secondary border-1 text-bg-secondary"
+          >
+            ${buttonRating.key} <i class="bi bi-heart-fill text-danger"></i>
+          </button>`;
     } else {
-      return `<button onclick="getTestiByRating(${buttonRating.rating})" class="btn">${buttonRating.key}<i class="bx bxs-heart"></i></button>`;
+      return `<button onclick="getTestiByRating(${buttonRating.rating})"
+            class="badge border border-secondary border-1 text-bg-secondary"
+          >
+            ${buttonRating.key} <i class="bi bi-heart-fill text-danger"></i>
+          </button>`;
     }
   });
 
-  document.getElementById("button-rating").innerHTML =
+  document.getElementById("filterRating").innerHTML =
     buttonRatingsHTML.join("");
 }
 
