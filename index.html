@@ -20,19 +20,19 @@
     <link rel="stylesheet" href="assets/styles/style.css" />
   </head>
   <body>
-
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top bg-dark">
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand text-white" href="#">Izulsyauki</a>
+        <a class="navbar-brand" href="#">Izulsyauki</a>
         <button
-          class="navbar-toggler"
+          class="navbar-toggler border border-1"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          style="color: white"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,21 +48,27 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white" href="add-my-project.html">Projects</a>
+              <a class="nav-link text-white" href="add-my-project.html"
+                >Projects</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link text-white" href="testimoni.html">Testimoni</a>
             </li>
           </ul>
-          <button class="btn btn-light" type="submit">Contact Me</button>
+          <a href="get-in-touch.html"
+            ><button class="btn btn-light" type="submit">Contact Me</button></a
+          >
         </div>
       </div>
     </nav>
 
     <!-- Content -->
     <section class="d-flex mt-2 mb-2 justify-content-center">
-      <div class="d-flex bg-white p-5 m-5 rounded-4 gap-5">
-        <div class="d-flex flex-column gap-3 w-75 justify-content-center">
+      <div
+        class="d-flex flex-column p-4 m-4 rounded-4 gap-5 flex-md-row p-sm-5 m-sm-5 bg-white"
+      >
+        <div class="d-flex flex-column gap-3 w-auto justify-content-center">
           <h1 class="text-dark">
             Hello folks! Welcome to My Hut
             <i class="bi bi-rocket-takeoff-fill"></i>
@@ -79,7 +85,8 @@
 
           <div class="d-flex mb-3 align-items-center">
             <a href="get-in-touch.html">
-            <button type="button" class="btn btn-dark">Contact Me</button>
+              <button type="button" class="btn btn-dark">Contact Me</button>
+            </a>
             <a
               class="link-dark align-text-bottom ms-3"
               href="https://drive.google.com/open?id=1FeqI2X5xPYh3qb35GfrIw5BGgpq_IBiB&usp=drive_fs"
@@ -118,7 +125,10 @@
           </div>
         </div>
 
-        <div class="card shadow-lg hover" style="width: 18rem">
+        <div
+          class="card shadow-lg align-self-center w-auto"
+          style="width: 18rem"
+        >
           <img
             src="assets/images/profile-image.jpg"
             class="card-img-top"

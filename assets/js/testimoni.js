@@ -166,7 +166,7 @@ async function getAllTesti() {
   );
 
   const testimoniHTML = testimonis.map((testimoni) => {
-    return `<div class="card shadow" style="width: 18rem">
+    return `<div class="card shadow align-self-center" style="width: 18rem">
           <img
             src="${testimoni.image}"
             class="card-img-top"
