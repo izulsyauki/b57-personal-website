@@ -64,8 +64,8 @@
     <section
       class="d-flex col-10 mt-5 m-3 p-4 bg-white gap-5 align-self-center rounded-4 justify-content-center m-md-5 p-md-5 col-md-6"
     >
-      <form id="projectForm" class="h-auto w-100">
-        {{!-- action="/" method="post" --}}
+      <form id="projectForm" action="/add-project" method="post" class="h-auto w-100">
+        {{!--  --}}
         <h2 class="fw-bold text-center mb-4">Add My Project</h2>
 
         <!-- Title -->
@@ -90,7 +90,6 @@
               <input
                 type="date"
                 name="startDate"
-                id="startDate"
                 class="form-control h-auto"
               />
             </div>
@@ -100,7 +99,6 @@
               <input
                 type="date"
                 name="endDate"
-                id="endDate"
                 class="form-control h-auto"
               />
             </div>
@@ -129,8 +127,8 @@
                 class="form-check-input"
                 type="checkbox"
                 value="Node.Js"
-                name="form-stack-1"
                 id="form-stack-1"
+                name="technologies"
               />
               <label class="form-check-label" for="form-stack-1">
                 Node.Js
@@ -141,8 +139,8 @@
                 class="form-check-input"
                 type="checkbox"
                 value="Next.Js"
-                name="form-stack-2"
                 id="form-stack-2"
+                name="technologies"
               />
               <label class="form-check-label" for="form-stack-2">
                 Next.Js
@@ -156,8 +154,8 @@
                 class="form-check-input"
                 type="checkbox"
                 value="Express.Js"
-                name="form-stack-3"
                 id="form-stack-3"
+                name="technologies"
               />
               <label class="form-check-label" for="form-stack-3">
                 Express.Js
@@ -168,8 +166,8 @@
                 class="form-check-input"
                 type="checkbox"
                 value="React.Js"
-                name="form-stack-4"
                 id="form-stack-4"
+                name="technologies"
               />
               <label class="form-check-label" for="form-stack-4">
                 React.Js
@@ -182,8 +180,8 @@
                 class="form-check-input"
                 type="checkbox"
                 value="Typescript"
-                name="form-stack-5"
                 id="form-stack-5"
+                name="technologies"
               />
               <label class="form-check-label" for="form-stack-5">
                 Typescript
@@ -194,8 +192,8 @@
                 class="form-check-input"
                 type="checkbox"
                 value="Others"
-                name="form-stack-6"
                 id="form-stack-6"
+                name="technologies"
               />
               <label class="form-check-label" for="form-stack-6">
                 Others

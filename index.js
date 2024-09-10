@@ -1,76 +1,75 @@
 const express = require("express");
+const path = require("path");
+const hbs = require("hbs");
 const app = express();
 const port = 5000;
-const path = require("path");
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
-
 app.use("/assets", express.static(path.join(__dirname, "assets")));
+hbs.registerPartials(path.join(__dirname, "views", "partials"));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-app.use(express.urlencoded ({extended: false}));
+const dataProjects = [];
 
-const projects = [];
-
-// routing
+// Routing html
 app.get("/", home);
 app.get("/add-project", addProject);
 app.post("/add-project", addProjectPost);
-app.get("/delete-project/:id",deleteProject);
+app.get("/delete-project/:id", deleteProject);
 app.get("/detail-project/detail/:id", detailProject);
 app.get("/contact-me", contactMe);
 app.get("/testimoni", testimoni);
 
 function deleteProject(req, res) {
-  const id = req.params.id
+  const id = req.params.id;
 
   projects.splice(id, 1);
-  res.redirect("/project")
+  res.redirect("/project");
 }
 
 function home(req, res) {
-  res.render("index")
-};
+  res.render("index", {dataProjects});
+}
 
 function detailProject(req, res) {
-  res.render("detail-project")
+  res.render("detail-project");
 }
 
 function addProject(req, res) {
-  res.render("add-project")
+  res.render("add-project");
 }
 
-function addProjectPost(req,res) {
-  // get data from form
-  const { inputTitle, startDate, endDate, technologies, description } = req.body;
-  
-  console.log("title: ", inputTitle);
-  console.log("start date: ", startDate);
-  console.log("end date: ", endDate);
-  console.log("technologies: ", technologies);
-  console.log("description: ", description);
+function addProjectPost(req, res) {
+  // mengambil data dari form
+  const { inputTitle, startDate, endDate, technologies, description } =
+    req.body;
 
-  console.log(data)
+  const data = {
+    inputTitle,
+    startDate,
+    endDate,
+    description,
+    technologies,
+    image: "/assets/images/coding1.jpg",
+  };
 
-  res.send("Data dikirim ke terminal, cek youre terminal");
-  // projects.unshift(data);
-
-  // res.redirect("/")
+  dataProjects.unshift(data);
+  res.redirect("/");
 }
 
 function contactMe(req, res) {
-  res.render("get-in-touch")
+  res.render("get-in-touch");
 }
 
 function testimoni(req, res) {
-  res.render("testimoni")
+  res.render("testimoni");
 }
 
-
 app.listen(port, () => {
-  console.log(`Server sedang berjalan di port ${port}`)
+  console.log(`Server sedang berjalan di port ${port}`);
 });
-
 
 // dynamic routing
 
