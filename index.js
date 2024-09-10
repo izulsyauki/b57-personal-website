@@ -13,12 +13,20 @@ app.use(express.urlencoded ({extended: false}));
 const projects = [];
 
 // routing
-app.get("/home", home);
-app.get("/add-my-project", addMyProject);
-app.post("/add-my-project", addMyProjectPost);
+app.get("/", home);
+app.get("/add-project", addProject);
+app.post("/add-project", addProjectPost);
+app.get("/delete-project/:id",deleteProject);
 app.get("/detail-project/detail/:id", detailProject);
 app.get("/contact-me", contactMe);
 app.get("/testimoni", testimoni);
+
+function deleteProject(req, res) {
+  const id = req.params.id
+
+  projects.splice(id, 1);
+  res.redirect("/project")
+}
 
 function home(req, res) {
   res.render("index")
@@ -28,24 +36,26 @@ function detailProject(req, res) {
   res.render("detail-project")
 }
 
-function addMyProject(req, res) {
-  res.render("add-my-project")
+function addProject(req, res) {
+  res.render("add-project")
 }
 
-function addMyProjectPost(req,res) {
-  const { inputTitle, description } = req.body;
+function addProjectPost(req,res) {
+  // get data from form
+  const { inputTitle, startDate, endDate, technologies, description } = req.body;
   
-  const data = {
-    title: inputTitle,
-    starDate: "2024-09-01",
-    endDate: "2024-09-30",
-    formStack: "",
-    description,
-    image: ""
-  }
+  console.log("title: ", inputTitle);
+  console.log("start date: ", startDate);
+  console.log("end date: ", endDate);
+  console.log("technologies: ", technologies);
+  console.log("description: ", description);
 
-  projects.unshift(data);
+  console.log(data)
 
+  res.send("Data dikirim ke terminal, cek youre terminal");
+  // projects.unshift(data);
+
+  // res.redirect("/")
 }
 
 function contactMe(req, res) {

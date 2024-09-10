@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add My Project</title>
+    <title>Edit My Project</title>
 
     <!-- Bootstrap -->
     <link
@@ -23,7 +23,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand text-white" href="/home">Izulsyauki</a>
+        <a class="navbar-brand text-white" href="/">Izulsyauki</a>
         <button
           class="navbar-toggler border border-1"
           type="button"
@@ -42,13 +42,13 @@
               <a
                 class="nav-link text-white"
                 aria-current="page"
-                href="/home"
+                href="/"
                 >Home</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white fw-bold" href="/add-my-project"
-                >Projects</a
+              <a class="nav-link text-white fw-bold" href="/add-project"
+                >Add Project</a
               >
             </li>
             <li class="nav-item">
@@ -213,8 +213,8 @@
     <section
       class="d-flex col-10 mt-5 m-3 p-4 bg-white gap-5 align-self-center rounded-4 justify-content-center m-md-5 p-md-5 col-md-6"
     >
-      <form class="h-auto w-100" action="/add-my-project" method="post" >
-        <h2 class="fw-bold text-center mb-4">Add Project</h2>
+      <form class="h-auto w-100" action="/add-project" method="post" >
+        <h2 class="fw-bold text-center mb-4">Add My Project</h2>
 
         <!-- Title -->
         <div class="mb-3">
@@ -351,48 +351,9 @@
 
         <!-- Submit -->
         <div class="mt-4 mb-3">
-          <button type="submit" class="btn btn-dark w-100">Submit</button>
+          <button type="submit" class="btn btn-dark w-100">Submit Edit</button>
         </div>
       </form>
-    </section>
-
-    <!-- My Project -->
-
-    <section class="d-flex flex-column bg-white p-5">
-      <h2 class="fw-bold text-center mb-4">My Pojects</h2>
-      <div class="d-flex gap-4" id="myPojects">
-        {{!-- youre poroject code here --}}
-        {{#each projects}}
-          <div class="card shadow" style="width: 18rem">
-          <img
-            src=""
-            class="card-img-top object-fit-cover"
-            alt=""
-          />
-
-          <div class="card-body d-flex flex-column justify-content-between" style="height: 320px">
-            <h4 class="card-title">{{title}}</h4>
-            <p class="card-text mt-0 mb-3 text-start text-secondary">1 month</p>
-            <p class="card-desc align-items-start overflow-y-hidden"  id="description">
-            {{description}}
-            </p>
-
-            <div class="d-flex gap-2 mt-1 mb-3">
-            <span 
-                class="badge border border-secondary border-1 text-secondary"
-                >React.Js</span
-              >
-            
-            </div>
-
-            <div class="d-flex gap-2 align-content-end">
-              <button class="btn btn-outline-dark w-50">Edit</button>
-              <button class="btn btn-dark w-50" id="buttonDelete">Delete</button>
-            </div>
-          </div>
-        </div>
-        {{/each}}
-      </div>
     </section>
 
     <!-- Bootstrap -->
