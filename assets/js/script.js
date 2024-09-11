@@ -57,3 +57,7 @@ function showNav() {
 
   console.log("Navbar display toggled to:", navbar.style.display);
 }
+
+function detailProject(id) {
+  window.location.href = `/detail-project/${id}`;
+}
