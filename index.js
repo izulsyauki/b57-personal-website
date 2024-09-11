@@ -7,6 +7,7 @@ const { calcProjectDuration } = require("./assets/js/utils");
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
+// setting static middleware
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 app.use(express.urlencoded({ extended: false }));

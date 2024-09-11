@@ -46,7 +46,6 @@ function sendEmail(event) {
 // });
 
 // Fungsi hamburger menu navbar
-
 function showNav() {
   let navbar = document.getElementById("navbar");
   if (navbar.style.display === "block") {

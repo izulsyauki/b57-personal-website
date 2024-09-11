@@ -1,4 +1,4 @@
-// // Adding project
+// // Adding project using javascript
 // document
 //   .getElementById("projectForm")
 //   .addEventListener("submit", function (event) {
