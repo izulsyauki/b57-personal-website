@@ -19,14 +19,7 @@ const dataProjects = [
     description: "This the firts time portofolio project from me",
     technologies: ["Express.JS", "Node.JS"],
     image: "/assets/images/coding1.jpg",
-  },
-  {
-    id: Date.now(),
-    inputTitle: "Web Travel Project",
-    description: "In 2024 i have to join with my friend to handle this project",
-    technologies: ["Laravel"],
-    image: "/assets/images/coding2.webp",
-  },
+  }
 ];
 
 // Routing html
