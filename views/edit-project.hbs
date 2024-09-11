@@ -19,43 +19,7 @@
     <link rel="stylesheet" href="/assets/styles/style.css" />
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand text-white" href="/">Izulsyauki</a>
-        <button
-          class="navbar-toggler border border-1"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto me-2 mb-lg-0 pe-1">
-            <li class="nav-item">
-              <a
-                class="nav-link text-white"
-                aria-current="page"
-                href="/"
-              >Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white fw-bold" href="/add-project">Add
-                Project</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="/testimoni">Testimoni</a>
-            </li>
-          </ul>
-          <button class="btn btn-light" type="submit">Contact Me</button>
-        </div>
-      </div>
-    </nav>
+    {{>navbar}}
 
     <!-- Input Form New-->
     <section
