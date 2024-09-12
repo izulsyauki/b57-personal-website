@@ -4,6 +4,9 @@ const hbs = require("hbs");
 const app = express();
 const port = 5000;
 const { calcProjectDuration } = require("./assets/js/utils");
+const config = require("./config/config.json");
+const { Sequelize, QueryTypes } = require("sequelize");
+const sequelize = new Sequelize(config.development);
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
@@ -34,11 +37,14 @@ app.get("/detail-project/:id", detailProject);
 app.get("/contact-me", contactMe);
 app.get("/testimoni", testimoni);
 
-function home(req, res) {
-  res.render("index", { dataProjects });
+async function home(req, res) {
+  const query = `SELECT * FROM public.projects`;
+  const result = await sequelize.query(query, {type: QueryTypes.SELECT});
+  
+  res.render("index", { dataProjects: result });
 }
 
-function addProject(req, res) {
+async function addProject(req, res) {
   res.render("add-project");
 }
 
@@ -62,7 +68,7 @@ function addProjectPost(req, res) {
   res.redirect("/");
 }
 
-function editProjectView(req, res) {
+async function editProjectView(req, res) {
   const id = parseInt(req.params.id, 10); // mengambil id dari parameter URL
 
   // find projek berdasarkan id

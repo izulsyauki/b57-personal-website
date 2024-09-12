@@ -84,7 +84,8 @@
           style="width: 18rem"
         >
           <img
-            src="/assets/images/profile-image.jpg"
+            src=
+            "/assets/images/profile-image.jpg"
             class="card-img-top"
             alt="..."
           />
@@ -104,13 +105,13 @@
         {{! adding automatically project using handlebars }}
         {{#each dataProjects}}
           <div class="card shadow" onclick="detailProject('{{id}}')" style="width: 16rem; cursor: pointer">
-            <img src="{{image}}" class="card-img-top object-fit-cover" alt="" />
+            <img src="{{image}}" class="card-img-top object-fit-cover" alt="Image Project" style="height: 200px" />
 
             <div
               class="card-body gap-2 d-flex flex-column position-relative"
               style="height: 320px"
             >
-              <h4 class="card-title">{{inputTitle}}</h4>
+              <h4 class="card-title">{{title}}</h4>
               <p
                 class="card-text mt-0 mb-3 text-start text-secondary"
               >{{duration}}</p>
