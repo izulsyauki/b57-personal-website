@@ -1,0 +1,21 @@
+<div class="card shadow" onclick="detailProject('{{id}}')" style="width: 20rem; cursor: pointer">
+	<img src="{{image}}" class="card-img-top object-fit-cover" alt="Image Project" style="height: 200px" />
+	<div class="card-body gap-2 d-flex flex-column position-relative" style="height: 320px">
+		<h4 class="card-title">{{title}}</h4>
+		<p class="card-text mt-0 text-start text-secondary">{{duration}}</p>
+		<p class="card-desc align-items-start overflow-y-hidden h-50" id="description">
+			{{description}}
+		</p>
+
+		<div class="d-flex gap-2 mt-1 mb-1">
+			{{#each technologies as | tech |}}
+			<span class="badge border border-secondary border-1 text-secondary">{{getTechName tech}}</span>
+			{{/each}}
+		</div>
+
+		<div class="d-flex gap-2 w-auto">
+			<a href="/edit-project/{{id}}" class="btn btn-outline-dark w-50">Edit</a>
+			<a href="/delete-project/{{id}}" class="btn btn-dark w-50" id="buttonDelete">Delete</a>
+		</div>
+	</div>
+</div>

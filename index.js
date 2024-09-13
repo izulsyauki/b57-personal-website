@@ -12,6 +12,34 @@ const Project = require("./models").
 projects;
 
 
+const techData = [
+  {
+    name : 'Node.Js',
+    key : 'node',
+  },
+  {
+    name : 'Express.Js',
+    key : 'express',
+  },
+  {
+    name : 'React.Js',
+    key : 'react',
+  },
+  {
+    name : 'Next.Js',
+    key : 'next',
+  },
+  {
+    name : 'Typescript',
+    key : 'typescript',
+  },
+  {
+    name : 'Others',
+    key : 'others',
+  }
+];
+
+
 // setting middleware
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
@@ -20,7 +48,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // data untuk parsing objek
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 hbs.registerHelper('isExist', function(array, value){
+  console.log('array', array);
+  console.log('tech', value);
   return array.includes(value);
+});
+hbs.registerHelper('getTechName', function(value){
+  const result = techData.find(tech => tech.key === value);
+  return result ? result.name : '';
 })
 
 // Routing html
@@ -41,7 +75,8 @@ async function home(req, res) {
 }
 
 async function addProject(req, res) {
-  res.render("add-project");
+  const tech = techData;
+  res.render("add-project", {tech});
 }
 
 async function addProjectPost(req, res) {
@@ -76,10 +111,11 @@ async function editProjectView(req, res) {
   const result = await sequelize.query(query, { type: QueryTypes.SELECT });
 
   const [project] = result;
-
+  const tech = techData;
+  
   if (!project) return res.status(404).send("Project not found");
 
-  res.render("edit-project", { project });
+  res.render("edit-project", {project, tech});
 }
 
 async function editProject(req, res) {
