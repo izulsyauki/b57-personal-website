@@ -98,6 +98,7 @@
                 value="Node.Js"
                 id="form-stack-1"
                 name="technologies"
+                {{#if (isExist project.technologies "Node.Js")}}checked{{/if}}
               />
               <label class="form-check-label" for="form-stack-1">
                 Node.Js
@@ -110,6 +111,7 @@
                 value="Next.Js"
                 id="form-stack-2"
                 name="technologies"
+                {{#if (isExist project.technologies "Next.Js")}}checked{{/if}}
               />
               <label class="form-check-label" for="form-stack-2">
                 Next.Js
@@ -125,6 +127,7 @@
                 value="Express.Js"
                 id="form-stack-3"
                 name="technologies"
+                {{#if (isExist project.technologies "Express.Js")}}checked{{/if}}
               />
               <label class="form-check-label" for="form-stack-3">
                 Express.Js
@@ -137,6 +140,7 @@
                 value="React.Js"
                 id="form-stack-4"
                 name="technologies"
+                {{#if (isExist project.technologies "React.Js")}}checked{{/if}}
               />
               <label class="form-check-label" for="form-stack-4">
                 React.Js
@@ -151,6 +155,7 @@
                 value="Typescript"
                 id="form-stack-5"
                 name="technologies"
+                {{#if (isExist project.technologies "Typescript")}}checked{{/if}}
               />
               <label class="form-check-label" for="form-stack-5">
                 Typescript
@@ -163,6 +168,7 @@
                 value="Others"
                 id="form-stack-6"
                 name="technologies"
+                {{#if (isExist project.technologies "Others")}}checked{{/if}}
               />
               <label class="form-check-label" for="form-stack-6">
                 Others

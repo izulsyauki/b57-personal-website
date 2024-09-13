@@ -4,11 +4,13 @@ const hbs = require("hbs");
 const app = express();
 const port = 5000;
 const { calcProjectDuration } = require("./assets/js/utils");
-
 // setting sequelize
 const config = require("./config/config.json");
 const { Sequelize, QueryTypes } = require("sequelize");
 const sequelize = new Sequelize(config.development);
+const Project = require("./models").
+projects;
+
 
 // setting middleware
 app.set("view engine", "hbs");
@@ -17,16 +19,9 @@ app.use("/assets", express.static(path.join(__dirname, "assets")));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // data untuk parsing objek
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
-
-// const dataProjects = [
-//   {
-//     id: Date.now(),
-//     inputTitle: "Portofolio Project",
-//     description: "This the firts time portofolio project from me",
-//     technologies: ["Express.JS", "Node.JS"],
-//     image: "/assets/images/coding1.jpg",
-//   }
-// ];
+hbs.registerHelper('isExist', function(array, value){
+  return array.includes(value);
+})
 
 // Routing html
 app.get("/", home);
@@ -40,8 +35,7 @@ app.get("/contact-me", contactMe);
 app.get("/testimoni", testimoni);
 
 async function home(req, res) {
-  const query = `SELECT * FROM public.projects`;
-  const result = await sequelize.query(query, { type: QueryTypes.SELECT });
+  const result = await Project.findAll();
 
   res.render("index", { result });
 }
@@ -57,22 +51,20 @@ async function addProjectPost(req, res) {
 
   const duration = calcProjectDuration(startDate, endDate);
 
-  const query = `INSERT INTO projects (title, "startDate", "endDate", technologies, description, image, duration)VALUES ('${inputTitle}', '${startDate}', '${endDate}', '{${technologies}}', '${description}', 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '${duration}')`;
+  console.log('technologies type', technologies);
 
-  const result = await sequelize.query(query, { type: QueryTypes.INSERT });
+  await Project.create({
+    title: inputTitle,
+    startDate: startDate,
+    endDate: endDate,
+    technologies: technologies,
+    description: description,
+    image: 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    duration: duration,
+  });
 
-  // const data = {
-  //   id: Date.now(),
-  //   inputTitle,
-  //   startDate,
-  //   endDate,
-  //   duration: calcProjectDuration(startDate, endDate),
-  //   description,
-  //   technologies,
-  //   image: "/assets/images/coding1.jpg",
-  // };
-
-  // dataProjects.unshift(data);
+  console.log("duration:", duration)
+  console.log("technologies", technologies)
   res.redirect("/");
 }
 
@@ -143,12 +135,3 @@ function testimoni(req, res) {
 app.listen(port, () => {
   console.log(`Server sedang berjalan di port ${port}`);
 });
-
-// dynamic routing
-
-// app.get("/detail/:id", (req, res) => {
-//   const id = req.params.id // dynamic routing
-//   const { name } = req.query // querystring
-
-//   res.send(`Detail ${id}; ${name}`)
-// });
