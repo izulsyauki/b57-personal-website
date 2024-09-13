@@ -101,10 +101,10 @@
 
     <section class="d-flex flex-column bg-white p-5">
       <h2 class="fw-bold text-center mb-4">My Pojects</h2>
-      <div class="d-flex gap-4" id="myPojects">
+      <div class="d-flex gap-4 ms-3" id="myPojects">
         {{! adding automatically project using handlebars }}
-        {{#each dataProjects}}
-          <div class="card shadow" onclick="detailProject('{{id}}')" style="width: 16rem; cursor: pointer">
+        {{#each result}}
+          <div class="card shadow" onclick="detailProject('{{id}}')" style="width: 18rem; cursor: pointer">
             <img src="{{image}}" class="card-img-top object-fit-cover" alt="Image Project" style="height: 200px" />
 
             <div

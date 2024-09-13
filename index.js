@@ -4,27 +4,29 @@ const hbs = require("hbs");
 const app = express();
 const port = 5000;
 const { calcProjectDuration } = require("./assets/js/utils");
+
+// setting sequelize
 const config = require("./config/config.json");
 const { Sequelize, QueryTypes } = require("sequelize");
 const sequelize = new Sequelize(config.development);
 
+// setting middleware
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
-// setting static middleware
 app.use("/assets", express.static(path.join(__dirname, "assets")));
-hbs.registerPartials(path.join(__dirname, "views", "partials"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // data untuk parsing objek
+hbs.registerPartials(path.join(__dirname, "views", "partials"));
 
-const dataProjects = [
-  {
-    id: Date.now(),
-    inputTitle: "Portofolio Project",
-    description: "This the firts time portofolio project from me",
-    technologies: ["Express.JS", "Node.JS"],
-    image: "/assets/images/coding1.jpg",
-  }
-];
+// const dataProjects = [
+//   {
+//     id: Date.now(),
+//     inputTitle: "Portofolio Project",
+//     description: "This the firts time portofolio project from me",
+//     technologies: ["Express.JS", "Node.JS"],
+//     image: "/assets/images/coding1.jpg",
+//   }
+// ];
 
 // Routing html
 app.get("/", home);
@@ -39,94 +41,95 @@ app.get("/testimoni", testimoni);
 
 async function home(req, res) {
   const query = `SELECT * FROM public.projects`;
-  const result = await sequelize.query(query, {type: QueryTypes.SELECT});
-  
-  res.render("index", { dataProjects: result });
+  const result = await sequelize.query(query, { type: QueryTypes.SELECT });
+
+  res.render("index", { result });
 }
 
 async function addProject(req, res) {
   res.render("add-project");
 }
 
-function addProjectPost(req, res) {
+async function addProjectPost(req, res) {
   // mengambil data dari form
   const { inputTitle, startDate, endDate, technologies, description } =
     req.body;
 
-  const data = {
-    id: Date.now(),
-    inputTitle,
-    startDate,
-    endDate,
-    duration: calcProjectDuration(startDate, endDate),
-    description,
-    technologies,
-    image: "/assets/images/coding1.jpg",
-  };
+  const duration = calcProjectDuration(startDate, endDate);
 
-  dataProjects.unshift(data);
+  const query = `INSERT INTO projects (title, "startDate", "endDate", technologies, description, image, duration)VALUES ('${inputTitle}', '${startDate}', '${endDate}', '{${technologies}}', '${description}', 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', '${duration}')`;
+
+  const result = await sequelize.query(query, { type: QueryTypes.INSERT });
+
+  // const data = {
+  //   id: Date.now(),
+  //   inputTitle,
+  //   startDate,
+  //   endDate,
+  //   duration: calcProjectDuration(startDate, endDate),
+  //   description,
+  //   technologies,
+  //   image: "/assets/images/coding1.jpg",
+  // };
+
+  // dataProjects.unshift(data);
   res.redirect("/");
 }
 
 async function editProjectView(req, res) {
-  const id = parseInt(req.params.id, 10); // mengambil id dari parameter URL
+  const { id } = req.params;
 
   // find projek berdasarkan id
-  const project = dataProjects.find((project) => project.id === id);
+  const query = `SELECT * FROM projects WHERE id=${id}`;
+  const result = await sequelize.query(query, { type: QueryTypes.SELECT });
 
-  if (!project) {
-    return res.status(404).send("Project not found");
-  }
+  const [project] = result;
+
+  if (!project) return res.status(404).send("Project not found");
 
   res.render("edit-project", { project });
 }
 
-function editProject(req, res) {
+async function editProject(req, res) {
+  const { id } = req.params;
   const { inputTitle, startDate, endDate, technologies, description } =
     req.body;
-  const id = parseInt(req.params.id, 10);
 
-  // mencari data berdasarkan index
-  const index = dataProjects.findIndex((project) => project.id === id);
+  const duration = calcProjectDuration(startDate, endDate);
 
-  if (index !== -1) {
-    const updateData = {
-      ...dataProjects[index], // membuat agar id tetap sama
-      inputTitle,
-      duration: calcProjectDuration(startDate, endDate),
-      description,
-      technologies,
-    };
+  const query = `UPDATE projects SET title='${inputTitle}', "startDate"='${startDate}', "endDate"='${endDate}', technologies='{${technologies}}', description='${description}', duration='${duration}'`
 
-    dataProjects[index] = updateData;
-    res.redirect("/");
-  } else {
-    res.status(404).send('Project not found')
-  }
+
+  if (!id) return res.status(404).send("Project not found");
+  
+  const result = await sequelize.query(query, {type: QueryTypes.UPDATE})
+  res.redirect("/");
 }
 
-function deleteProject(req, res) {
-  const id = parseInt(req.params.id, 10);
-  // mencari data berdasarkan index
-  const index = dataProjects.findIndex((project) => project.id === id);
+async function deleteProject(req, res) {
+  const { id } = req.params;
+  let query = `SELECT * FROM projects WHERE id=${id}`;
+  let result = await sequelize.query(query, { type: QueryTypes.SELECT });
 
-  if (index !== -1){
-    dataProjects.splice(index, 1);
-    res.redirect("/");
-  } else {
-    res.status(404).send('Project not found')
-  }
+  if (!result) return res.status(404).send("Project not found");
+  query = `DELETE FROM projects WHERE id=${id}`;
+  result = await sequelize.query(query, { type: QueryTypes.DELETE });
+  res.redirect("/");
 }
 
-function detailProject(req, res) {
-  const id = parseInt(req.params.id, 10);
-  const project = dataProjects.find((project) => project.id === id);
+async function detailProject(req, res) {
+  const { id } = req.params;
+  // query select untuk mengambil data dari db
+  const query = `SELECT * FROM public.projects WHERE id=${id}`;
+  const result = await sequelize.query(query, { type: QueryTypes.SELECT });
 
-  if (project){
-    res.render("detail-project", { project });
-  } else {
-    res.status(404).send('Project not found')
+  const [project] = result;
+
+  if (!result) {
+    return res.status(404).send("Project not found");
   }
+
+  res.render("detail-project", { project });
 }
 
 function contactMe(req, res) {
