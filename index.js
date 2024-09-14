@@ -65,6 +65,7 @@ app.get("/delete-project/:id", deleteProject);
 app.get("/detail-project/:id", detailProject);
 app.get("/contact-me", contactMe);
 app.get("/testimoni", testimoni);
+app.get("/register", register);
 
 async function home(req, res) {
 	const result = await Project.findAll();
@@ -143,28 +144,34 @@ async function editProject(req, res) {
 
 async function deleteProject(req, res) {
 	const { id } = req.params;
-	let query = `SELECT * FROM projects WHERE id=${id}`;
-	let result = await sequelize.query(query, { type: QueryTypes.SELECT });
+	let result = await Project.findOne ({
+		where: {
+			id: id
+		}
+	});
 
 	if (!result) return res.status(404).send("Project not found");
-	query = `DELETE FROM projects WHERE id=${id}`;
-	result = await sequelize.query(query, { type: QueryTypes.DELETE });
+	
+	await Project.destroy({
+		where: {
+			id: id
+		}
+	});
 	res.redirect("/");
 }
 
 async function detailProject(req, res) {
 	const { id } = req.params;
 	// query select untuk mengambil data dari db
-	const query = `SELECT * FROM public.projects WHERE id=${id}`;
-	const result = await sequelize.query(query, { type: QueryTypes.SELECT });
 
-	const [project] = result;
+	const result = await Project.findOne({
+		where: {
+			id: id,
+		}
+	});
 
-	if (!result) {
-		return res.status(404).send("Project not found");
-	}
-
-	res.render("detail-project", { project });
+	if (!result) return res.status(404).send("Project not found");
+	res.render("detail-project", { result });
 }
 
 function contactMe(req, res) {
@@ -173,6 +180,10 @@ function contactMe(req, res) {
 
 function testimoni(req, res) {
 	res.render("testimoni");
+}
+
+function register(req, res) {
+	res.render("register");
 }
 
 app.listen(port, () => {
