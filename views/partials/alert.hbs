@@ -1,13 +1,18 @@
 {{!-- message alert --}}
 <div class="alert-container">
 	{{#if messages.success}}
-	<div class="alert alert-success alert-floating fw-bold alert-dismissible fade show d-flex" role="alert">
+	<div class="alert alert-success shadow fw-bold alert-dismissible fade show d-flex p-5 pb-3 pt-3" role="alert">
 		{{messages.success}}
 	</div>
 	{{/if}}
 	{{#if messages.error}}
-	<div class="alert alert-danger alert-floating fw-bold alert-dismissible fade show d-flex" role="alert">
+	<div class="alert alert-danger shadow fw-bold alert-dismissible fade show d-flex p-3 p-5 pb-3 pt-3" role="alert">
 		{{messages.error}}
+	</div>
+	{{/if}}
+	{{#if messages.warning}}
+	<div class="alert alert-warning shadow fw-bold alert-dismissible fade show d-flex p-5 pb-3 pt-3" role="alert">
+		{{messages.warning}}
 	</div>
 	{{/if}}
 </div>

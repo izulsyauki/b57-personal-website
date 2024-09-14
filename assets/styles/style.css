@@ -19,12 +19,12 @@ body {
   transform: translateX(-50%);
   z-index: 1000;
   width: auto;
-  max-width: 300px;
+  max-width: 500px;
 }
 
-.alert-floating {
+/* .alert-floating {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
+} */
 
 /* Animasi alert */
 @keyframes fadeOutUp {

@@ -83,6 +83,7 @@ app.get("/register", registerView);
 app.post("/register", register);
 app.get("/login", loginView);
 app.post("/login", login);
+app.get("/logout", logout);
 
 
 async function home(req, res) {
@@ -314,6 +315,23 @@ async function login(req, res) {
 	} catch (error) {
 		req.flash("error", "Something went wrong")
 		res.redirect("/login");
+	}
+}
+
+function logout(req, res) {
+	try {
+		const logout = req.session.destroy;
+
+		if(!logout){
+			req.flash("error", "Logout failed, Try again!");
+			return res.redirect("/");
+		}
+		
+		req.flash("warning", "Youre Logged out, Please Login to Continue!");
+		res.redirect("login");
+	} catch (error) {
+		req.flash("error", "Something went wrong")
+		res.redirect("/");
 	}
 }
 
