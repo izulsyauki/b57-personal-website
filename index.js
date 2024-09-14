@@ -4,12 +4,13 @@ const hbs = require("hbs");
 const app = express();
 const port = 5000;
 const { calcProjectDuration } = require("./assets/js/utils");
-// setting sequelize
-const config = require("./config/config.json");
-const { Sequelize, QueryTypes } = require("sequelize");
-const sequelize = new Sequelize(config.development);
 const Project = require("./models").
 	projects;
+const User = require("./models").
+	users;
+const bcrypt = require('bcrypt');
+const session = require('express-session');
+const flash = require('express-flash');
 
 
 const techData = [
@@ -46,6 +47,18 @@ app.set("views", path.join(__dirname, "views"));
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // data untuk parsing objek
+app.use(session({
+	name: 'my-session',
+	secret: 'u94eSa7gzu',
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24
+	}
+})
+);
+app.use(flash());
+
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 hbs.registerHelper('isExist', function (array, value) {
 	return array.includes(value);
@@ -65,7 +78,11 @@ app.get("/delete-project/:id", deleteProject);
 app.get("/detail-project/:id", detailProject);
 app.get("/contact-me", contactMe);
 app.get("/testimoni", testimoni);
-app.get("/register", register);
+app.get("/register", registerView);
+app.post("/register", register);
+app.get("/login", loginView);
+app.post("/login", login);
+
 
 async function home(req, res) {
 	const result = await Project.findAll();
@@ -79,99 +96,142 @@ async function addProject(req, res) {
 }
 
 async function addProjectPost(req, res) {
-	// mengambil data dari form
-	const { inputTitle, startDate, endDate, technologies, description } =
-		req.body;
+	try {
+		const { inputTitle, startDate, endDate, technologies, description } =
+			req.body;
 
-	const duration = calcProjectDuration(startDate, endDate);
+		const duration = calcProjectDuration(startDate, endDate);
 
-	await Project.create({
-		title: inputTitle,
-		startDate: startDate,
-		endDate: endDate,
-		technologies: technologies,
-		description: description,
-		image: 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-		duration: duration,
-	});
+		await Project.create({
+			title: inputTitle,
+			startDate: startDate,
+			endDate: endDate,
+			technologies: technologies,
+			description: description,
+			image: 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+			duration: duration,
+		});
 
-	res.redirect("/");
+		req.flash("success", "Adding Project Success!");
+		res.redirect("/");
+	} catch (error) {
+		req.flash("error", "Something went wrong!")
+		return res.redirect("/");
+	}
 }
 
 async function editProjectView(req, res) {
-	const { id } = req.params;
+	try {
+		const { id } = req.params;
 
-	const result = await Project.findOne({
-		where: {
-			id: id,
+		const result = await Project.findOne({
+			where: {
+				id: id,
+			}
+		});
+
+		const tech = techData;
+
+		if (!result) {
+			req.flash("error", "Project not found");
+			return res.redirect("/")
 		}
-	});
 
-	const tech = techData;
-
-	if (!result) return res.status(404).send("Project not found");
-
-	res.render("edit-project", { result, tech });
+		res.render("edit-project", { result, tech });
+	} catch (error) {
+		req.flash("error", "Something went wrong!")
+		return res.redirect("/");
+	}
 }
 
+
+
+
 async function editProject(req, res) {
-	const { id } = req.params;
-	const { inputTitle, startDate, endDate, technologies, description } =
-		req.body;
+	try {
+		const { id } = req.params;
+		const { inputTitle, startDate, endDate, technologies, description } =
+			req.body;
 
-	const duration = calcProjectDuration(startDate, endDate);
+		const duration = calcProjectDuration(startDate, endDate);
 
-	const project = await Project.findOne({
-		where: {
-			id: id
+		const project = await Project.findOne({
+			where: {
+				id: id
+			}
+		});
+
+		if (!project) {
+			req.flash("error", "Project not found");
+			return res.redirect("/");
 		}
-	});
 
-	if (!project) return res.status(404).send("Project not found");
+		project.title = inputTitle;
+		project.startDate = startDate;
+		project.endDate = endDate;
+		project.technologies = technologies;
+		project.description = description;
+		project.image = 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+		project.duration = duration;
 
-	project.title = inputTitle;
-	project.startDate = startDate;
-	project.endDate = endDate;
-	project.technologies = technologies;
-	project.description = description;
-	project.image = 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-	project.duration = duration;
+		await project.save();
 
-	await project.save();
-
-	res.redirect("/");
+		req.flash("success", "Edit Successfull!")
+		res.redirect("/");
+	} catch (error) {
+		req.flash("error", "Something went wrong!")
+		return res.redirect("/");
+	}
 }
 
 async function deleteProject(req, res) {
-	const { id } = req.params;
-	let result = await Project.findOne ({
-		where: {
-			id: id
-		}
-	});
+	try {
+		const { id } = req.params;
+		let result = await Project.findOne({
+			where: {
+				id: id
+			}
+		});
 
-	if (!result) return res.status(404).send("Project not found");
-	
-	await Project.destroy({
-		where: {
-			id: id
+		if (!result) {
+			req.flash("error", "Project not found");
+			return res.redirect("/");
 		}
-	});
-	res.redirect("/");
+
+		await Project.destroy({
+			where: {
+				id: id
+			}
+		});
+		res.redirect("/");
+	} catch (error) {
+		req.flash("error", "Something went wrong!")
+		return res.redirect("/");
+	}
 }
 
 async function detailProject(req, res) {
-	const { id } = req.params;
-	// query select untuk mengambil data dari db
+	try {
+		const { id } = req.params;
+		// query select untuk mengambil data dari db
 
-	const result = await Project.findOne({
-		where: {
-			id: id,
+		const result = await Project.findOne({
+			where: {
+				id: id,
+			}
+		});
+
+		if (!result) {
+			req.flash("error", "Project not found")
+			return res.redirect("/")
 		}
-	});
 
-	if (!result) return res.status(404).send("Project not found");
-	res.render("detail-project", { result });
+		res.render("detail-project", { result });
+	} catch (error) {
+		req.flash("error", "Something went wrong!")
+		return res.redirect("/");
+	}
+
 }
 
 function contactMe(req, res) {
@@ -182,8 +242,68 @@ function testimoni(req, res) {
 	res.render("testimoni");
 }
 
-function register(req, res) {
+function registerView(req, res) {
 	res.render("register");
+
+}
+
+async function register(req, res) {
+	try {
+		const { name, email, password } = req.body;
+
+		const saltRounds = 10;
+		const hashedPass = await bcrypt.hash(password, saltRounds);
+
+		await User.create({
+			name: name,
+			email: email,
+			password: hashedPass
+		});
+
+		req.flash("success", "Login succeeded")
+		res.redirect("register");
+	} catch (error) {
+		req.flash("error", "Something went wrong!")
+		return res.redirect("register");
+	}
+}
+
+function loginView(req, res) {
+	res.render("login");
+}
+
+async function login(req, res) {
+	try {
+		const { email, password } = req.body;
+
+		const user = await User.findOne({
+			where: {
+				email: email,
+			}
+		});
+
+		if (!user) {
+			req.flash("error", "User not found");
+			return res.redirect("/login");
+		}
+
+		const isValidPass = await bcrypt.compare(password, user.password)
+
+		if (!isValidPass) {
+			req.flash("error", "Check again youre email or password");
+			return res.redirect("/login");
+		}
+
+		// menyimpan data user tanpa password ke session
+		const userWithoutPass = { ...user.get(), password: undefined };
+		req.session.user = userWithoutPass
+
+		req.flash("success", "Login succeeded!")
+		res.redirect("/");
+	} catch (error) {
+		req.flash("error", "Something went wrong")
+		res.redirect("/login");
+	}
 }
 
 app.listen(port, () => {
