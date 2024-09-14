@@ -53,7 +53,8 @@ app.use(session({
 	resave: false,
 	saveUninitialized: true,
 	cookie: {
-		maxAge: 1000 * 60 * 60 * 24
+		maxAge: 1000 * 60 * 60 * 24,
+		secure: false
 	}
 })
 );
@@ -86,13 +87,24 @@ app.post("/login", login);
 
 async function home(req, res) {
 	const result = await Project.findAll();
+	const user = req.session.user;
 
-	res.render("index", { result });
+	const resultWithUser = result.map(item => ({
+		...item.dataValues,
+		user: user,
+	}))
+
+	console.log("ini apa bang?", user);
+
+	res.render("index", { result: resultWithUser, user });
 }
 
 async function addProject(req, res) {
 	const tech = techData;
-	res.render("add-project", { tech });
+	const user = req.session.user;
+
+	console.log("project?", user);
+	res.render("add-project", { tech, user });
 }
 
 async function addProjectPost(req, res) {
@@ -112,7 +124,7 @@ async function addProjectPost(req, res) {
 			duration: duration,
 		});
 
-		req.flash("success", "Adding Project Success!");
+		req.flash("success", "Adding Project Successful!");
 		res.redirect("/");
 	} catch (error) {
 		req.flash("error", "Something went wrong!")
@@ -123,6 +135,7 @@ async function addProjectPost(req, res) {
 async function editProjectView(req, res) {
 	try {
 		const { id } = req.params;
+		const user = req.session.user;
 
 		const result = await Project.findOne({
 			where: {
@@ -134,7 +147,7 @@ async function editProjectView(req, res) {
 
 		if (!result) {
 			req.flash("error", "Project not found");
-			return res.redirect("/")
+			return res.redirect("/", user)
 		}
 
 		res.render("edit-project", { result, tech });
@@ -143,9 +156,6 @@ async function editProjectView(req, res) {
 		return res.redirect("/");
 	}
 }
-
-
-
 
 async function editProject(req, res) {
 	try {
@@ -213,7 +223,8 @@ async function deleteProject(req, res) {
 async function detailProject(req, res) {
 	try {
 		const { id } = req.params;
-		// query select untuk mengambil data dari db
+		const user = req.session.user;
+
 
 		const result = await Project.findOne({
 			where: {
@@ -223,7 +234,7 @@ async function detailProject(req, res) {
 
 		if (!result) {
 			req.flash("error", "Project not found")
-			return res.redirect("/")
+			return res.redirect("/", user)
 		}
 
 		res.render("detail-project", { result });
@@ -231,20 +242,20 @@ async function detailProject(req, res) {
 		req.flash("error", "Something went wrong!")
 		return res.redirect("/");
 	}
-
 }
 
 function contactMe(req, res) {
-	res.render("get-in-touch");
+	const user = req.session.user;
+	res.render("get-in-touch", { user });
 }
 
 function testimoni(req, res) {
-	res.render("testimoni");
+	const user = req.session.user;
+	res.render("testimoni", { user });
 }
 
 function registerView(req, res) {
 	res.render("register");
-
 }
 
 async function register(req, res) {
@@ -260,7 +271,7 @@ async function register(req, res) {
 			password: hashedPass
 		});
 
-		req.flash("success", "Login succeeded")
+		req.flash("success", "Register Successful!")
 		res.redirect("register");
 	} catch (error) {
 		req.flash("error", "Something went wrong!")
@@ -298,7 +309,7 @@ async function login(req, res) {
 		const userWithoutPass = { ...user.get(), password: undefined };
 		req.session.user = userWithoutPass
 
-		req.flash("success", "Login succeeded!")
+		req.flash("success", "Login Successful!")
 		res.redirect("/");
 	} catch (error) {
 		req.flash("error", "Something went wrong")

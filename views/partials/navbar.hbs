@@ -13,11 +13,24 @@
 					<a class="nav-link text-white" aria-current="page" href="/">Home</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link text-white" href="/testimoni">Testimoni</a>
+				</li>
+
+				{{#if user}}
+				<li class="nav-item">
 					<a class="nav-link text-white" href="/add-project">Add Project</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white" href="/testimoni">Testimoni</a>
+					<a class="nav-link text-white" href="/add-project">Logout</a>
 				</li>
+				{{else}}
+				<li class="nav-item">
+					<a class="nav-link text-white" href="/login">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white" href="/register">Register</a>
+				</li>
+				{{/if}}
 			</ul>
 			<a href="/contact-me"><button class="btn btn-light" type="submit">Contact Me</button></a>
 		</div>
