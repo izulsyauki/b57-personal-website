@@ -11,6 +11,7 @@ const User = require("./models").
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const flash = require('express-flash');
+const cookieParser = require('cookie-parser');
 
 // data untuk cekbox
 const techData = [
@@ -58,6 +59,7 @@ app.use(session({
 })
 );
 app.use(flash());
+app.use(cookieParser());
 
 // setting helpers
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
@@ -89,15 +91,13 @@ app.get("/logout", logout);
 async function home(req, res) {
 	const result = await Project.findAll();
 	const user = req.session.user;
-
+	
 	const resultWithUser = result.map(item => ({
 		...item.dataValues,
 		user: user,
 	}))
 
-	console.log("ini apa bang?", user);
-
-	res.render("index", { result: resultWithUser, user });
+	res.render("index", { result: resultWithUser, user});
 }
 
 async function addProject(req, res) {
@@ -238,7 +238,7 @@ async function detailProject(req, res) {
 			return res.redirect("/")
 		}
 
-		res.render("detail-project", { result , user});
+		res.render("detail-project", { result, user });
 	} catch (error) {
 		req.flash("error", "Something went wrong!")
 		return res.redirect("/");
@@ -281,7 +281,10 @@ async function register(req, res) {
 }
 
 function loginView(req, res) {
-	res.render("login");
+	const flashMessage = req.cookies.flash_message;
+	res.clearCookie("flash_message")
+
+	res.render("login", { flashMessage });
 }
 
 async function login(req, res) {
@@ -320,15 +323,19 @@ async function login(req, res) {
 
 function logout(req, res) {
 	try {
-		const logout = req.session.destroy;
+		res.cookie("flash_message", "You're Logged out, Please Login to Continue!", {
+			httpOnly: true,
+			maxAge: 5000,
+		});
 
-		if(!logout){
-			req.flash("error", "Logout failed, Try again!");
-			return res.redirect("/");
-		}
-		
-		req.flash("warning", "Youre Logged out, Please Login to Continue!");
-		res.redirect("login");
+		req.session.destroy((err) => {
+			if (err) {
+				req.flash("error", "Logout failed, Try again!");
+				return res.redirect("/");
+			}
+
+			res.redirect("/login");
+		});
 	} catch (error) {
 		req.flash("error", "Something went wrong")
 		res.redirect("/");

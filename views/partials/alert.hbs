@@ -10,9 +10,9 @@
 		{{messages.error}}
 	</div>
 	{{/if}}
-	{{#if messages.warning}}
+	{{#if flashMessage}}
 	<div class="alert alert-warning shadow fw-bold alert-dismissible fade show d-flex p-5 pb-3 pt-3" role="alert">
-		{{messages.warning}}
+		{{flashMessage}}
 	</div>
 	{{/if}}
 </div>

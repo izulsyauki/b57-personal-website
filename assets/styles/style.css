@@ -22,10 +22,6 @@ body {
   max-width: 500px;
 }
 
-/* .alert-floating {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-} */
-
 /* Animasi alert */
 @keyframes fadeOutUp {
   0% {
