@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const flash = require('express-flash');
 
-
+// data untuk cekbox
 const techData = [
 	{
 		name: 'Node.Js',
@@ -40,7 +40,6 @@ const techData = [
 	}
 ];
 
-
 // setting middleware
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
@@ -60,6 +59,7 @@ app.use(session({
 );
 app.use(flash());
 
+// setting helpers
 hbs.registerPartials(path.join(__dirname, "views", "partials"));
 hbs.registerHelper('isExist', function (array, value) {
 	return array.includes(value);
@@ -235,10 +235,10 @@ async function detailProject(req, res) {
 
 		if (!result) {
 			req.flash("error", "Project not found")
-			return res.redirect("/", user)
+			return res.redirect("/")
 		}
 
-		res.render("detail-project", { result });
+		res.render("detail-project", { result , user});
 	} catch (error) {
 		req.flash("error", "Something went wrong!")
 		return res.redirect("/");
