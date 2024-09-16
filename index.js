@@ -273,7 +273,7 @@ async function register(req, res) {
 		});
 
 		req.flash("success", "Register Successful!")
-		res.redirect("register");
+		res.redirect("login");
 	} catch (error) {
 		req.flash("error", "Something went wrong!")
 		return res.redirect("register");
