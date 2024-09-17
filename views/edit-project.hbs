@@ -21,7 +21,7 @@
 	<!-- Input Form New-->
 	<section
 		class="d-flex col-10 mt-5 m-3 p-4 bg-white gap-5 align-self-center rounded-4 justify-content-center m-md-5 p-md-5 col-md-6">
-		<form id="projectForm" action="/edit-project/{{result.id}}" method="post" class="h-auto w-100">
+		<form id="projectForm" action="/edit-project/{{result.id}}" method="post" class="h-auto w-100" enctype="multipart/form-data">
 			{{! }}
 			<h2 class="fw-bold text-center mb-4">Edit My Project</h2>
 
@@ -82,7 +82,7 @@
 				<label for="uploadImage" class="form-label">Upload Image</label>
 				<img src="" id="imagePreview" alt="Image Preview" class="img-fluid rounded-2 w-25 mb-3"
 					style="display: none;" />
-				<input class="form-control" type="file" name="uploadImage" id="uploadImage" />
+				<input class="form-control" type="file" name="uploadImage" id="uploadImage" accept="/assets/images/*"/>
 			</div>
 
 			<!-- Submit -->

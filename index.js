@@ -12,6 +12,18 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const flash = require('express-flash');
 const cookieParser = require('cookie-parser');
+const moment = require('moment');
+const multer = require('multer');
+// setting multer
+const storage = multer.diskStorage({
+	destination: function (req, file, cb){
+		cb(null, './assets/images/');
+	},
+	filename: function(req, file, cb){
+		cb(null, file.originalname);
+	}
+});
+const upload = multer ({ storage });
 
 // data untuk cekbox
 const techData = [
@@ -41,6 +53,7 @@ const techData = [
 	}
 ];
 
+
 // setting middleware
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
@@ -69,14 +82,19 @@ hbs.registerHelper('isExist', function (array, value) {
 hbs.registerHelper('getTechName', function (value) {
 	const result = techData.find(tech => tech.key === value);
 	return result ? result.name : '';
+});
+hbs.registerHelper('formatDate', function(date){
+	return moment(date).format('YYYY-MM-DD');
 })
+
+
 
 // Routing html
 app.get("/", home);
 app.get("/add-project", addProject);
-app.post("/add-project", addProjectPost);
+app.post("/add-project", upload.single("uploadImage"), addProjectPost);
 app.get("/edit-project/:id", editProjectView);
-app.post("/edit-project/:id", editProject);
+app.post("/edit-project/:id", upload.single("uploadImage"), editProject);
 app.get("/delete-project/:id", deleteProject);
 app.get("/detail-project/:id", detailProject);
 app.get("/contact-me", contactMe);
@@ -89,7 +107,11 @@ app.get("/logout", logout);
 
 
 async function home(req, res) {
-	const result = await Project.findAll();
+	const result = await Project.findAll({
+		order: [
+			['createdAt', 'DESC']
+		]
+	});
 	const user = req.session.user;
 	
 	const resultWithUser = result.map(item => ({
@@ -104,13 +126,14 @@ async function addProject(req, res) {
 	const tech = techData;
 	const user = req.session.user;
 
-	console.log("project?", user);
+	console.log("project?", req.session.user.id);
 	res.render("add-project", { tech, user });
 }
 
 async function addProjectPost(req, res) {
 	try {
-		const { inputTitle, startDate, endDate, technologies, description } =
+		console.log('request file ',req.file)
+		const { inputTitle, startDate, endDate, technologies, description, } =
 			req.body;
 
 		const duration = calcProjectDuration(startDate, endDate);
@@ -121,8 +144,9 @@ async function addProjectPost(req, res) {
 			endDate: endDate,
 			technologies: technologies,
 			description: description,
-			image: 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+			image: "/" + req.file.path,
 			duration: duration,
+			userId: req.session.user.id
 		});
 
 		req.flash("success", "Adding Project Successful!");
@@ -160,6 +184,7 @@ async function editProjectView(req, res) {
 
 async function editProject(req, res) {
 	try {
+		console.log('request file', req.file);
 		const { id } = req.params;
 		const { inputTitle, startDate, endDate, technologies, description } =
 			req.body;
@@ -182,14 +207,15 @@ async function editProject(req, res) {
 		project.endDate = endDate;
 		project.technologies = technologies;
 		project.description = description;
-		project.image = 'https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+		project.image = "/" + req.file.path;
 		project.duration = duration;
-
+		
 		await project.save();
 
 		req.flash("success", "Edit Successfull!")
 		res.redirect("/");
 	} catch (error) {
+		console.log('ini error nya bang '+ error);
 		req.flash("error", "Something went wrong!")
 		return res.redirect("/");
 	}
@@ -230,7 +256,14 @@ async function detailProject(req, res) {
 		const result = await Project.findOne({
 			where: {
 				id: id,
-			}
+			},
+			include :[
+				{
+					model: User,
+					as: 'user',
+					attributes: ['id', 'name','email']
+				}
+			]
 		});
 
 		if (!result) {
@@ -238,8 +271,10 @@ async function detailProject(req, res) {
 			return res.redirect("/")
 		}
 
+		console.log("kamu apa bang?",result.image);
 		res.render("detail-project", { result, user });
 	} catch (error) {
+		console.log(error);
 		req.flash("error", "Something went wrong!")
 		return res.redirect("/");
 	}

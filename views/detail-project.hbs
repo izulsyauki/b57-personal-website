@@ -28,10 +28,13 @@
 				<img src="{{result.image}}" class="object-fit-cover rounded-3 col-12 col-md-4" alt="Image Project"
 					style="height: 350px; max-height: 350px;" />
 
-				<div class="card-body d-flex flex-column w-100 gap-3" style="height: 100%">
+				<div class="card-body d-flex flex-column w-100 gap-2" style="height: 100%">
 					<h3 class="card-title">{{result.title}}</h3>
 					<p class="card-text text-start p-0 m-0"><i class="bi bi-calendar-range"></i> Start: {{result.startDate}}, End: {{result.endDate}}</p>
-					<p class="card-text mt-0 mb-3 text-start text-secondary">{{result.duration}}</p>
+					{{#if user}}
+					<p class="card-text text-start p-0 m-0">Created at: {{formatDate result.createdAt}} Author: {{result.user.name}}</p>
+					{{/if}}
+					<p class="card-text mt-0 mb-1 text-start text-secondary">{{result.duration}}</p>
 					<p class="card-desc" id="description" style="height: 40%;">
 						{{result.description}}
 					</p>

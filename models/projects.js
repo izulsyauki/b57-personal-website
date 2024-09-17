@@ -46,6 +46,14 @@ module.exports = (sequelize, DataTypes) => {
       duration: {
         type: DataTypes.STRING,
         allowNull: false, 
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        }
       }
     },
     {
@@ -53,5 +61,13 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "projects",
     }
   );
+
+  projects.associate = function(models){
+    projects.belongsTo(models.users, {
+      foreignKey: "userId",
+      as: 'user',
+    })
+  }
+
   return projects;
 };
