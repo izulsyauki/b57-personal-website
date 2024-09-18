@@ -4,6 +4,7 @@
   "description": "ini project pertama saya",
   "main": "index.js",
   "scripts": {
+    "postinstall": "sequelize-cli db:migrate",
     "start": "node index.js",
     "serve": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
