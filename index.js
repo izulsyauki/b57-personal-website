@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
 	const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
-    cb(null, file.originalname);
+    cb(null, file.filename + "-" + uniqueSuffix);
   },
 });
 const upload = multer({ storage });
@@ -55,6 +55,7 @@ const techData = [
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 app.use("/assets", express.static(path.join(__dirname, "assets")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // data untuk parsing objek
 app.use(
