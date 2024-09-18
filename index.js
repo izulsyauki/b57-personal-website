@@ -18,11 +18,25 @@ const storage = multer.diskStorage({
     cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
-	const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
-    cb(null, file.filename + "-" + uniqueSuffix);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
   },
 });
-const upload = multer({ storage });
+// const fileFilter = (req, file, cb) => {
+//   const filetypes = /jpeg|jpg|png|gif/;
+//   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+//   const mimetype = filetypes.test(file.mimetype);
+
+//   if (mimetype && extname) {
+//     return cb(null, true);
+//   } else {
+//     cb(new Error("Only images file are allowed"));
+//   }
+// };
+const upload = multer({ storage});
 
 // data untuk cekbox
 const techData = [
@@ -89,9 +103,9 @@ hbs.registerHelper("formatDate", function (date) {
 // Routing html
 app.get("/", home);
 app.get("/add-project", addProjectView);
-app.post("/add-project", upload.single("uploadImage"), addProjectPost);
+app.post("/add-project", upload.single('uploadImage'), addProjectPost);
 app.get("/edit-project/:id", editProjectView);
-app.post("/edit-project/:id", upload.single("uploadImage"), editProject);
+app.post("/edit-project/:id", upload.single('uploadImage'), editProject);
 app.get("/delete-project/:id", deleteProject);
 app.get("/detail-project/:id", detailProject);
 app.get("/contact-me", contactMe);
@@ -103,23 +117,31 @@ app.post("/login", login);
 app.get("/logout", logout);
 
 async function home(req, res) {
-  const result = await Project.findAll({
-    order: [["createdAt", "DESC"]],
-  });
-  const user = req.session.user;
+  try {
+    const result = await Project.findAll({
+      order: [["createdAt", "DESC"]],
+    });
+    const user = req.session.user;
 
-  const resultWithUser = result.map((item) => ({
-    ...item.dataValues,
-    user: user,
-  }));
+    const resultWithUser = result.map((item) => ({
+      ...item.dataValues,
+      user: user,
+    }));
 
-  res.render("index", { result: resultWithUser, user });
+    res.render("index", { result: resultWithUser, user });
+  } catch (error) {
+    console.log("ini error apa bang?", error);
+    req.flash("danger", "Something went wrong");
+    res.redirect("/");
+  }
 }
 
 async function addProjectView(req, res) {
   try {
     const tech = techData;
     const user = req.session.user;
+    const messageWarning = req.cookies.warning;
+    res.clearCookie("warning");
 
     if (!user) {
       res.cookie("warning", "You're must login to continue!", {
@@ -129,7 +151,7 @@ async function addProjectView(req, res) {
       return res.redirect("login");
     }
 
-    res.render("add-project", { tech, user });
+    res.render("add-project", { tech, user, messageWarning });
   } catch (error) {
     req.flash("error", "Something went wrong!");
     return res.redirect("/");
@@ -138,7 +160,6 @@ async function addProjectView(req, res) {
 
 async function addProjectPost(req, res) {
   try {
-    console.log("request file ", req.file);
     const { inputTitle, startDate, endDate, technologies, description } =
       req.body;
 
