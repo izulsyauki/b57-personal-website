@@ -21,7 +21,8 @@
 	<!-- Input Form New-->
 	<section
 		class="d-flex col-10 mt-5 m-3 p-4 bg-white gap-5 align-self-center rounded-4 justify-content-center m-md-5 p-md-5 col-md-6">
-		<form id="projectForm" action="/edit-project/{{result.id}}" method="post" class="h-auto w-100" enctype="multipart/form-data">
+		<form id="projectForm" action="/edit-project/{{result.id}}" method="post" class="h-auto w-100"
+			enctype="multipart/form-data">
 			{{! }}
 			<h2 class="fw-bold text-center mb-4">Edit My Project</h2>
 
@@ -56,33 +57,44 @@
 			</div>
 
 			<!-- Checkbox -->
-			<div class="d-flex flex-column gap-3 mb-3">
+			<div class="d-flex flex-column gap-3 mb-2">
 				<label class="ms-3 mb-1">Technologies</label>
 
 
 				<div class="row ms-2">
+
 					{{#each tech as | tech |}}
-						<div class="col col-md-6">
-							<div class="form-check w-50 mb-3">
-							<input class="form-check-input" type="checkbox" value="{{tech.key}}" id="form-stack-{{@index}}"
-								name="technologies" {{#if (isExist ../result.technologies tech.key)}}checked{{/if}} />
+					<div class="col col-md-6">
+						<div class="form-check w-50 mb-3">
+							<input class="form-check-input" type="checkbox" value="{{tech.key}}"
+								id="form-stack-{{@index}}" name="technologies" {{#if (isExist ../result.technologies
+								tech.key)}}checked{{/if}} />
 							<label class="form-check-label" for="form-stack-{{@index}}">
 								{{tech.name}}
 							</label>
-							</div>
 						</div>
+					</div>
 					{{/each}}
 
 				</div>
 
 			</div>
 
+			{{!-- input hidden untuk menyimpan gambar lama --}}
+			<input type="hidden" name="existingImageURL" value="{{result.image}}">
+
 			<!-- Upload image -->
-			<div class="mb-3">
+			<div class="d-flex flex-column mb-3 ">
 				<label for="uploadImage" class="form-label">Upload Image</label>
+
+				{{#if result.image}}
+				<img src="/{{result.image}}" id="imagePreview" alt="Image Preview" class="img-fluid rounded-2 w-25 mb-3" />
+				{{else}}
 				<img src="" id="imagePreview" alt="Image Preview" class="img-fluid rounded-2 w-25 mb-3"
 					style="display: none;" />
-				<input class="form-control" type="file" name="uploadImage" id="uploadImage" accept="/assets/images/*"/>
+				{{/if}}
+
+				<input class="form-control" type="file" name="uploadImage" id="uploadImage" accept="images/*" />
 			</div>
 
 			<!-- Submit -->

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const hbs = require("hbs");
@@ -13,6 +13,8 @@ const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
 const moment = require("moment");
 const multer = require("multer");
+const fs = require("fs");
+const { fileURLToPath } = require("url");
 // setting multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,7 +39,7 @@ const storage = multer.diskStorage({
 //     cb(new Error("Only images file are allowed"));
 //   }
 // };
-const upload = multer({ storage});
+const upload = multer({ storage });
 
 // data untuk cekbox
 const techData = [
@@ -104,9 +106,9 @@ hbs.registerHelper("formatDate", function (date) {
 // Routing html
 app.get("/", home);
 app.get("/add-project", addProjectView);
-app.post("/add-project", upload.single('uploadImage'), addProjectPost);
+app.post("/add-project", upload.single("uploadImage"), addProjectPost);
 app.get("/edit-project/:id", editProjectView);
-app.post("/edit-project/:id", upload.single('uploadImage'), editProject);
+app.post("/edit-project/:id", upload.single("uploadImage"), editProject);
 app.get("/delete-project/:id", deleteProject);
 app.get("/detail-project/:id", detailProject);
 app.get("/contact-me", contactMe);
@@ -131,7 +133,7 @@ async function home(req, res) {
 
     res.render("index", { result: resultWithUser, user });
   } catch (error) {
-    console.log("ini error apa bang?", error);
+    console.log("error apa bang?", error);
     req.flash("danger", "Something went wrong");
     res.redirect("/");
   }
@@ -164,22 +166,27 @@ async function addProjectPost(req, res) {
     const { inputTitle, startDate, endDate, technologies, description } =
       req.body;
 
+    const techArray = Array.isArray(technologies) ? technologies : technologies.split(",");
     const duration = calcProjectDuration(startDate, endDate);
 
-    await Project.create({
+    const newProject = await Project.create({
       title: inputTitle,
       startDate: startDate,
       endDate: endDate,
-      technologies: technologies,
+      technologies: techArray,
       description: description,
-      image: "/" + req.file.path,
+      image: req.file.path,
       duration: duration,
       userId: req.session.user.id,
     });
 
+    console.log("ini array bukan bang?", techArray);
+    console.log("Seccess add project", newProject);
+
     req.flash("success", "Adding project successful!");
     res.redirect("/");
   } catch (error) {
+    console.log("Error add project", error);
     req.flash("error", "Something went wrong!");
     return res.redirect("/");
   }
@@ -212,10 +219,16 @@ async function editProjectView(req, res) {
 
 async function editProject(req, res) {
   try {
-    console.log("request file", req.file);
+    console.log("request file", req.file); // cek file yang di upload
     const { id } = req.params;
-    const { inputTitle, startDate, endDate, technologies, description } =
-      req.body;
+    const {
+      inputTitle,
+      startDate,
+      endDate,
+      technologies,
+      description,
+      existingImageURL,
+    } = req.body;
 
     const duration = calcProjectDuration(startDate, endDate);
 
@@ -235,7 +248,13 @@ async function editProject(req, res) {
     project.endDate = endDate;
     project.technologies = technologies;
     project.description = description;
-    project.image = "/" + req.file.path;
+
+    if (req.file) {
+      project.image = req.file.path;
+    } else {
+      project.image = existingImageURL;
+    }
+
     project.duration = duration;
 
     await project.save();
@@ -262,11 +281,33 @@ async function deleteProject(req, res) {
       return res.redirect("/");
     }
 
+    const imagePath = result.image;
+
     await Project.destroy({
       where: {
         id: id,
       },
     });
+
+    if (imagePath) {
+      const fullPath = path.join(__dirname, "..", "1.personal-web", imagePath);
+      console.log("Full path to image", fullPath);
+      fs.access(fullPath, fs.constants.F_OK, (err) => {
+        if (err) {
+          console.log("File gk ada bang", fullPath);
+        } else {
+          fs.unlink(fullPath, (err) => {
+            if (err) {
+              console.log("error delete image", err);
+            } else {
+              console.log("Image deleted successfully");
+            }
+          });
+        }
+      });
+    }
+
+    req.flash("success", "Project deleted successfully");
     res.redirect("/");
   } catch (error) {
     req.flash("error", "Something went wrong!");

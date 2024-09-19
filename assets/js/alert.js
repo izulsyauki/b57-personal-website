@@ -1,4 +1,4 @@
-  // fungsi menyembunyikan alert
+// fungsi menyembunyikan alert
   setTimeout(function() {
     const alerts = document.querySelectorAll('.alert');
     alerts.forEach(alert => {

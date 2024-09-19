@@ -38,25 +38,9 @@ function sendEmail(event) {
   document.querySelector("form").reset();
 }
 
-// Change name label
-// document.getElementById("upload-img").addEventListener("change", function () {
-//   const fileName = this.files[0].name; // Mengambil nama file yang diunggah
-//   const label = document.getElementById("upload-label");
-//   label.textContent = fileName; // Mengubah teks label menjadi nama file
-// });
-
-// Fungsi hamburger menu navbar
-function showNav() {
-  let navbar = document.getElementById("navbar");
-  if (navbar.style.display === "block") {
-    navbar.style.display = "none";
-  } else {
-    navbar.style.display = "block";
-  }
-
-  console.log("Navbar display toggled to:", navbar.style.display);
-}
+// fungsi onklik untuk membuka detail project
 
 function detailProject(id) {
   window.location.href = `/detail-project/${id}`;
 }
+
