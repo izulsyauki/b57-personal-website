@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const path = require("path");
 const hbs = require("hbs");
@@ -12,7 +13,6 @@ const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
 const moment = require("moment");
 const multer = require("multer");
-require('dotenv').config();
 // setting multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
