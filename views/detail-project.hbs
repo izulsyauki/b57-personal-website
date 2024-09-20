@@ -47,7 +47,7 @@
 						{{/each}}
 					</div>
 
-					{{#if user}}
+					{{#isOwner user.id result.userId}}
 					<div class="d-flex justify-content-end m-0 p-0">
 						<div class="d-flex gap-2 col-12 col-md-4">
 							<a href="/edit-project/{{result.id}}" class="btn btn-outline-dark w-50">Edit</a>
@@ -55,7 +55,9 @@
 								id="buttonDelete">Delete</a>
 						</div>
 					</div>
-					{{/if}}
+					{{else}}
+					{{/isOwner}}
+					
 				</div>
 			</div>
 		</div>

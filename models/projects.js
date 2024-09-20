@@ -1,5 +1,5 @@
 "use strict";
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class projects extends Model {
     /**
@@ -15,21 +15,21 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.INTEGER,
-        autoIncrement: true, 
-        primaryKey: true, 
-        allowNull: false,  
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
       },
       title: {
         type: DataTypes.STRING,
-        allowNull: false,   
+        allowNull: false,
       },
       startDate: {
         type: DataTypes.DATEONLY,
-        allowNull: false, 
+        allowNull: false,
       },
       endDate: {
         type: DataTypes.DATEONLY,
-        allowNull: false, 
+        allowNull: false,
       },
       description: {
         type: DataTypes.STRING,
@@ -37,24 +37,24 @@ module.exports = (sequelize, DataTypes) => {
       },
       technologies: {
         type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: false,   
+        allowNull: false,
       },
       image: {
         type: DataTypes.STRING,
-        allowNull: true,   
+        allowNull: true,
       },
       duration: {
         type: DataTypes.STRING,
-        allowNull: false, 
+        allowNull: false,
       },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'users',
-          key: 'id',
-        }
-      }
+          model: "users",
+          key: "id",
+        },
+      },
     },
     {
       sequelize,
@@ -62,12 +62,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  projects.associate = function(models){
+  projects.associate = function (models) {
     projects.belongsTo(models.users, {
       foreignKey: "userId",
-      as: 'user',
-    })
-  }
+      as: "user",
+    });
+  };
 
   return projects;
 };

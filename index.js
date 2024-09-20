@@ -13,8 +13,8 @@ const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
 const moment = require("moment");
 const multer = require("multer");
-const fs = require("fs");
-const { fileURLToPath } = require("url");
+const fs = require("fs"); // file system from express js
+const { resourceUsage } = require("process");
 // setting multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -28,17 +28,6 @@ const storage = multer.diskStorage({
     );
   },
 });
-// const fileFilter = (req, file, cb) => {
-//   const filetypes = /jpeg|jpg|png|gif/;
-//   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-//   const mimetype = filetypes.test(file.mimetype);
-
-//   if (mimetype && extname) {
-//     return cb(null, true);
-//   } else {
-//     cb(new Error("Only images file are allowed"));
-//   }
-// };
 const upload = multer({ storage });
 
 // data untuk cekbox
@@ -101,6 +90,13 @@ hbs.registerHelper("getTechName", function (value) {
 });
 hbs.registerHelper("formatDate", function (date) {
   return moment(date).format("YYYY-MM-DD");
+});
+hbs.registerHelper("isOwner", function (sessionUserId, projectUserId, options) {
+  if (sessionUserId === projectUserId) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
 });
 
 // Routing html
@@ -166,7 +162,9 @@ async function addProjectPost(req, res) {
     const { inputTitle, startDate, endDate, technologies, description } =
       req.body;
 
-    const techArray = Array.isArray(technologies) ? technologies : technologies.split(",");
+    const techArray = Array.isArray(technologies)
+      ? technologies
+      : technologies.split(",");
     const duration = calcProjectDuration(startDate, endDate);
 
     const newProject = await Project.create({
@@ -364,6 +362,17 @@ function registerView(req, res) {
 async function register(req, res) {
   try {
     const { name, email, password } = req.body;
+
+    const existingEmail = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (existingEmail) {
+      req.flash("error", "Email already exist");
+      return res.redirect("register");
+    }
 
     const saltRounds = 10;
     const hashedPass = await bcrypt.hash(password, saltRounds);
