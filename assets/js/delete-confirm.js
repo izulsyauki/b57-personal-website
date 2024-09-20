@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
     deleteButtons.forEach((button) => {
       button.addEventListener("click", function (event) {
+        event.preventDefault();
         event.stopPropagation();
   
         if (confirm("Are you sure you want to delete this project?")) {
