@@ -30,12 +30,11 @@
 
 				<div class="card-body d-flex flex-column w-100 gap-2" style="height: 100%">
 					<h3 class="card-title">{{result.title}}</h3>
-					<p class="card-text text-start p-0 m-0"><i class="bi bi-calendar-range"></i> Start:
+					<p class="card-text text-start p-0 m-0">📅 Start:
 						{{result.startDate}}, End: {{result.endDate}}</p>
-					{{#if user}}
-					<p class="card-text text-start p-0 m-0">Created at: {{formatDate result.createdAt}} Author:
+					<p class="card-text text-start p-0 m-0">🖊️ Created at: {{formatDate result.createdAt}} 👨🏻‍💼
+						Author:
 						{{result.user.name}}</p>
-					{{/if}}
 					<p class="card-text mt-0 mb-1 text-start text-secondary">{{result.duration}}</p>
 					<p class="card-desc" id="description" style="height: 40%;">
 						{{result.description}}
@@ -56,8 +55,13 @@
 						</div>
 					</div>
 					{{else}}
+					<div class="d-flex justify-content-end m-0 p-0">
+						<div class="d-flex gap-2 col-12 col-md-4">
+							<a href="/" class="btn btn-outline-dark w-100">Back</a>
+						</div>
+					</div>
 					{{/isOwner}}
-					
+
 				</div>
 			</div>
 		</div>
