@@ -19,6 +19,12 @@ if (config.use_env_variable) {
   });
 }
 
+if (process.env.NODE_ENV === "production") {
+  console.log("Running in production mode");
+} else {
+  console.log("Running in development mode");
+}
+
 fs
   .readdirSync(__dirname)
   .filter(file => {

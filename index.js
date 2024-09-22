@@ -30,6 +30,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// cek env production
+if (process.env.NODE_ENV === "production") {
+  console.log("Running in production mode");
+} else {
+  console.log("Running in development mode");
+}
+
 // data untuk cekbox
 const techData = [
   {
