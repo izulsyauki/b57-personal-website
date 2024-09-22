@@ -65,6 +65,10 @@ const techData = [
   },
 ];
 
+// block request for error vercel 
+app.get('/favicon.ico', (req, res) => res.status(204));
+app.get('/favicon.png', (req, res) => res.status(204));
+
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 app.use("/assets", express.static(path.join(__dirname, "assets")));
