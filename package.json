@@ -4,7 +4,7 @@
   "description": "ini project pertama saya",
   "main": "index.js",
   "scripts": {
-    "postinstall": "sequelize-cli db:migrate",
+    "build": "sequelize-cli db:migrate && NODE_ENV=production node index.js",
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "node index.js",
     "serve": "nodemon index.js",
