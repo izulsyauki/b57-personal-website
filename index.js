@@ -132,7 +132,6 @@ async function home(req, res) {
 
     res.render("index", { result: resultWithUser, user });
   } catch (error) {
-    console.log("error apa bang?", error);
     req.flash("danger", "Something went wrong");
     res.redirect("/");
   }
@@ -181,13 +180,9 @@ async function addProjectPost(req, res) {
       userId: req.session.user.id,
     });
 
-    console.log("ini array bukan bang?", techArray);
-    console.log("Seccess add project", newProject);
-
     req.flash("success", "Adding project successful!");
     res.redirect("/");
   } catch (error) {
-    console.log("Error add project", error);
     req.flash("error", "Something went wrong!");
     return res.redirect("/");
   }
@@ -220,7 +215,6 @@ async function editProjectView(req, res) {
 
 async function editProject(req, res) {
   try {
-    console.log("request file", req.file); // cek file yang di upload
     const { id } = req.params;
     const {
       inputTitle,
@@ -292,7 +286,6 @@ async function deleteProject(req, res) {
 
     if (imagePath) {
       const fullPath = path.join(__dirname, "..", "1.personal-web", imagePath);
-      console.log("Full path to image", fullPath);
       fs.access(fullPath, fs.constants.F_OK, (err) => {
         if (err) {
           console.log("File gk ada bang", fullPath);
@@ -339,10 +332,8 @@ async function detailProject(req, res) {
       return res.redirect("/");
     }
 
-    console.log("kamu apa bang?", result.image);
     res.render("detail-project", { result, user });
   } catch (error) {
-    console.log(error);
     req.flash("error", "Something went wrong!");
     return res.redirect("/");
   }

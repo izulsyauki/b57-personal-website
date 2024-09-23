@@ -26,21 +26,6 @@ body {
   position: relative;
 }
 
-.navbar-nav .nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 1.5px;
-  left: 8px;
-  bottom: 8px;
-  background-color: white;
-  transition: width 0.3s ease-in-out;
-}
-
-.navbar-nav .nav-link:hover::after {
-  width: 80%;
-}
-
 /* Animasi alert */
 @keyframes fadeOutUp {
   0% {
@@ -57,3 +42,19 @@ body {
   animation: fadeOutUp 1s forwards;
 }
 
+@media (min-width: 768px) {
+  .navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 1.5px;
+    left: 8px;
+    bottom: 8px;
+    background-color: white;
+    transition: width 0.3s ease-in-out;
+  }
+
+  .navbar-nav .nav-link:hover::after {
+    width: 80%;
+  }
+}
