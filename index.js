@@ -456,15 +456,20 @@ function logout(req, res) {
 			maxAge: 5000,
 		});
 
-		req.session.destroy((err) => {
-			if (err) {
-				req.flash("error", "Logout failed, Try again!");
-				return res.redirect("/");
-			}
+		// Hapus session user apabila menggunakan express-session
+		// req.session.destroy((err) => {
+		// 	if (err) {
+		// 		req.flash("error", "Logout failed, Try again!");
+		// 		return res.redirect("/");
+		// 	}
 
-			res.redirect("/login");
-		});
+		// 	res.redirect("/login");
+		// });
+
+		req.session = null;
+		res.redirect("/login");
 	} catch (error) {
+		console.log("Error logout bang, ", error);
 		req.flash("error", "Something went wrong");
 		res.redirect("/");
 	}
