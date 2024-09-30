@@ -79,15 +79,15 @@
 
 			</div>
 
-			{{!-- input hidden untuk menyimpan gambar lama --}}
-			<input type="hidden" name="existingImageURL" value="{{result.image}}">
+			{{!-- input hidden untuk menyimpan gambar lama
+			<input type="hidden" name="existingImageURL" value="{{result.image}}"> --}}
 
 			<!-- Upload image -->
 			<div class="d-flex flex-column mb-3 ">
 				<label for="uploadImage" class="form-label">Upload Image</label>
 
 				{{#if result.image}}
-				<img src="/{{result.image}}" id="imagePreview" alt="Image Preview" class="img-fluid rounded-2 w-25 mb-3" />
+				<img src="{{result.image}}" id="imagePreview" alt="Image Preview" class="img-fluid rounded-2 w-25 mb-3" />
 				{{else}}
 				<img src="" id="imagePreview" alt="Image Preview" class="img-fluid rounded-2 w-25 mb-3"
 					style="display: none;" />

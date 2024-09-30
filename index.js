@@ -14,20 +14,36 @@ const cookieParser = require("cookie-parser");
 const moment = require("moment");
 const multer = require("multer");
 const fs = require("fs"); // file system from express js
-// setting multer
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, "./uploads");
-	},
-	filename: function (req, file, cb) {
-		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-		cb(
-			null,
-			file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-		);
-	},
-});
+const { promises } = require("dns");
+const storage = multer.memoryStorage(); // setting multer
 const upload = multer({ storage });
+const cloudinary = require('cloudinary').v2; // setting cloudinary
+// cloudinary config
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+// function upload cloudinary
+const uploadToCloudinary = (file) => {
+	return new Promise((resolve, reject) => {
+		cloudinary.uploader.upload_stream({
+			folder: "upload-img-personal-web",
+			tranformation: [
+				{width: 1200, crop: "limit"},
+				{quality: "auto"},
+				{fetch_format: "auto"}
+			]
+		},
+		(error, result) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(result)
+			}
+		}).end(file.buffer);
+	})
+}
 
 // data untuk cekbox
 const techData = [
@@ -163,6 +179,10 @@ async function addProjectPost(req, res) {
 	try {
 		const { inputTitle, startDate, endDate, technologies, description } =
 			req.body;
+		const imageFile = req.file;
+
+		const result = await uploadToCloudinary(imageFile);
+		const imageUrl = result.secure_url;
 
 		const techArray = Array.isArray(technologies)
 			? technologies
@@ -175,7 +195,7 @@ async function addProjectPost(req, res) {
 			endDate: endDate,
 			technologies: techArray,
 			description: description,
-			image: req.file.path,
+			image: imageUrl,
 			duration: duration,
 			userId: req.session.user.id,
 		});
@@ -244,12 +264,24 @@ async function editProject(req, res) {
 		project.technologies = technologies;
 		project.description = description;
 
-		if (req.file) {
-			project.image = req.file.path;
-		} else {
-			project.image = existingImageURL;
-		}
+		let imageUrl = project.image; // gambar existing
 
+		if (req.file) {
+			const publicId = imageUrl.split('/').slice(-2).join('/').split('.')[0];
+
+			// menghapus gambar lama di cloudinary
+			await cloudinary.uploader.destroy(publicId, (error, result) => {
+				if (error){
+					console.log("Error deleting old image, ", error);
+				} else {
+					console.log("Image deleted from cloudinary, ", result);
+				}
+			});
+			const result = await uploadToCloudinary(req.file);
+			imageUrl = result.secure_url;
+		} 
+
+		project.image = imageUrl;
 		project.duration = duration;
 
 		await project.save();
@@ -276,33 +308,26 @@ async function deleteProject(req, res) {
 			return res.redirect("/");
 		}
 
-		const imagePath = result.image;
+		const imageUrl = result.image;
+		const publicId = imageUrl.split('/').slice(-2).join('/').split('.')[0];
 
-		await Project.destroy({
-			where: {
-				id: id,
-			},
-		});
+		await cloudinary.uploader.destroy(publicId, async(error, result) => {
+			if (error) {
+				req.flash("Error deleting image from cloudinary");
+				console.log("Error delete iamge cloudinary: ",error);
+				return res.status(500).send("Failed delete image from Cloudinary");
+			}
+			console.log("Image deleted from Cloudinary ", result);
 
-		if (imagePath) {
-			const fullPath = path.join(__dirname, "..", "1.personal-web", imagePath);
-			fs.access(fullPath, fs.constants.F_OK, (err) => {
-				if (err) {
-					console.log("File gk ada bang", fullPath);
-				} else {
-					fs.unlink(fullPath, (err) => {
-						if (err) {
-							console.log("error delete image", err);
-						} else {
-							console.log("Image deleted successfully");
-						}
-					});
-				}
+			await Project.destroy({
+				where: {
+					id: id,
+				},
 			});
-		}
 
-		req.flash("success", "Project deleted successfully");
-		res.redirect("/");
+			req.flash("success", "Project deleted successfully");
+			res.redirect("/");
+		});
 	} catch (error) {
 		req.flash("error", "Something went wrong!");
 		return res.redirect("/");
