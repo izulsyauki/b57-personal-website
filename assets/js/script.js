@@ -1,11 +1,4 @@
 // function send email
-const textarea = document.querySelector("textarea");
-textarea.addEventListener("keyup", (event) => {
-  textarea.style.height = "100px";
-  let scHeight = event.target.scrollHeight;
-  textarea.style.height = `${scHeight}px`;
-});
-
 function sendEmail(event) {
   event.preventDefault();
   const myEmail = "izulsyaukiimani@gmail.com";
