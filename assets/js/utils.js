@@ -1,5 +1,4 @@
 // Menghitung durasi proyek
-
 const calcProjectDuration = (startDate, endDate) => {
   const start = new Date(startDate);
   const end = new Date(endDate);

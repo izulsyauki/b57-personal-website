@@ -34,15 +34,20 @@
             <!-- Email -->
             <div class="mb-3">
                 <label for="inputEmail" class="form-label">Email</label>
-                <input type="text" class="form-control h-auto" placeholder="Input youre email" id="inputEmail" name="email"
-                    aria-describedby="emailHelp" required />
+                <input type="text" class="form-control h-auto" placeholder="Input youre email" id="inputEmail"
+                    name="email" aria-describedby="emailHelp" required />
             </div>
 
             <!-- Password -->
             <div class="mb-3">
-                <label for="inputPhone" class="form-label">Password</label>
-                <input type="password" class="form-control h-auto" placeholder="Type youre password" id="inputPass" name="password"
-                    aria-describedby="passHelp" required />
+                <label for="inputPass" class="form-label">Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control h-auto" placeholder="Type youre password" id="inputPass"
+                        name="password" aria-describedby="passHelp" required />
+                    <span class="input-group-text" id="togglePassword" style="cursor: pointer">
+                        <i class="bi bi-eye" id="eyeIcon"></i>
+                    </span>
+                </div>
             </div>
 
 
@@ -61,5 +66,7 @@
     <!-- /Bootstrap -->
 
     <script src="/assets/js/alert.js"></script>
+    <script src="/assets/js/show-password.js"></script>
 </body>
+
 </html>
