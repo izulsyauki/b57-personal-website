@@ -327,8 +327,7 @@ async function deleteProject(req, res) {
 			res.redirect("/");
 		});
 	} catch (error) {
-		console.log("Error delete bang, ", error);
-		req.flash("error", "Something went wrong!", error);
+		req.flash("error", "Something went wrong!");
 		return res.redirect("/");
 	}
 }
